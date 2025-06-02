@@ -1,7 +1,10 @@
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer};
 use reqwest::Client;
+use std::io;
+use std::io::Write;
 use std::net::{TcpStream, UdpSocket};
 use std::sync::{Arc, Mutex};
+use std::thread;
 use std::time::Duration;
 
 fn get_local_ip() -> Option<String> {
@@ -69,6 +72,35 @@ async fn proxy(req: HttpRequest, body: web::Bytes, client: web::Data<Client>) ->
     }
 }
 
+fn show_pulsing() {
+    let states = [
+        "Server Status: .....",
+        "Server Status: .....",
+        "Server Status: READY",
+        "Server Status: .....",
+        "Server Status: READY",
+        "Server Status: LIVE!",
+    ];
+
+    for state in &states {
+        print!("\r{}", state);
+        io::stdout().flush().unwrap();
+        thread::sleep(Duration::from_millis(400));
+    }
+    println!();
+}
+
+fn show_spinner() {
+    let spinner_chars = ['|', '/', '-', '\\'];
+    loop {
+        for &ch in &spinner_chars {
+            print!("\rserver is running {} ", ch);
+            io::stdout().flush().unwrap();
+            thread::sleep(Duration::from_millis(100));
+        }
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // let the_ip = "127.0.0.1";
@@ -131,7 +163,8 @@ async fn main() -> std::io::Result<()> {
     let backend_port = final_open_ports[0] as u16;
 
     println!("\n=== PROXY SERVER INFO ===");
-    println!("Starting proxy server...");
+    show_pulsing();
+    println!("======================================================");
     println!("Proxy running on: http://{}:8081", local_ip);
     println!("======================================================");
     println!("Forwarding requests to: http://localhost:{}", backend_port);
@@ -140,7 +173,9 @@ async fn main() -> std::io::Result<()> {
     println!();
     println!("======================================================");
     println!("You can access the proxy at: http://{}:8081\n on your other devices connected to the same network", local_ip);
-    println!("Happy coding :)...");
+    println!("Happy coding :) ");
+    show_spinner();
+
     let client = Client::new();
 
     HttpServer::new(move || {
