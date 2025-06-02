@@ -2,6 +2,7 @@
 name = "voxlan"
 version = "0.1.0"
 edition = "2024"
+description = "Reserved crate name. Work in progress."
 
 [dependencies]
 tokio = { version = "1.45.1", features = ["full"] }
