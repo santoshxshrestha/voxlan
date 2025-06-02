@@ -1,10 +1,9 @@
+mod animation;
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer};
+use animation::{show_pulsing, start_spinner};
 use reqwest::Client;
-use std::io;
-use std::io::Write;
 use std::net::{TcpStream, UdpSocket};
 use std::sync::{Arc, Mutex};
-use std::thread;
 use std::time::Duration;
 
 fn get_local_ip() -> Option<String> {
@@ -68,35 +67,6 @@ async fn proxy(req: HttpRequest, body: web::Bytes, client: web::Data<Client>) ->
         Err(e) => {
             eprintln!("Failed to forward request: {}", e);
             HttpResponse::InternalServerError().body("Failed to forward request")
-        }
-    }
-}
-
-fn show_pulsing() {
-    let states = [
-        "Server Status: .....",
-        "Server Status: .....",
-        "Server Status: READY",
-        "Server Status: .....",
-        "Server Status: READY",
-        "Server Status: LIVE!",
-    ];
-
-    for state in &states {
-        print!("\r{}", state);
-        io::stdout().flush().unwrap();
-        thread::sleep(Duration::from_millis(400));
-    }
-    println!();
-}
-
-fn show_spinner() {
-    let spinner_chars = ['|', '/', '-', '\\'];
-    loop {
-        for &ch in &spinner_chars {
-            print!("\rserver is running {} ", ch);
-            io::stdout().flush().unwrap();
-            thread::sleep(Duration::from_millis(100));
         }
     }
 }
@@ -174,7 +144,8 @@ async fn main() -> std::io::Result<()> {
     println!("======================================================");
     println!("You can access the proxy at: http://{}:8081\n on your other devices connected to the same network", local_ip);
     println!("Happy coding :) ");
-    show_spinner();
+
+    start_spinner();
 
     let client = Client::new();
 
