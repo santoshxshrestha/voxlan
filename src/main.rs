@@ -73,8 +73,8 @@ async fn proxy(req: HttpRequest, body: web::Bytes, client: web::Data<Client>) ->
 async fn main() -> std::io::Result<()> {
     // let the_ip = "127.0.0.1";
     let local_ip = get_local_ip().unwrap_or_else(|| "localhost".to_string());
-    println!("Local IP: {}", local_ip);
-    println!("Scanning ports 1-9999...");
+    // println!("Local IP: {}", local_ip);
+    // println!("Scanning ports 1-9999...");
 
     // Using Arc<Mutex<Vec<u16>>> to safely share open_ports between threads
     let open_ports = Arc::new(Mutex::new(Vec::new()));
@@ -123,7 +123,7 @@ async fn main() -> std::io::Result<()> {
         println!("Cannot start proxy without a backend service!");
         return Ok(());
     } else {
-        // println!("Open ports found: {:?}", final_open_ports);
+        println!("Open ports found: {:?}", final_open_ports);
         println!("Total open ports: {}", final_open_ports.len());
     }
 
@@ -139,7 +139,8 @@ async fn main() -> std::io::Result<()> {
 
     println!();
     println!("======================================================");
-    println!("You can access the proxy at: http://{}:8081 on your other devices connected to the same network", local_ip);
+    println!("You can access the proxy at: http://{}:8081\n on your other devices connected to the same network", local_ip);
+    println!("Happy coding :)...");
     let client = Client::new();
 
     HttpServer::new(move || {
