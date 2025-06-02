@@ -1,9 +1,9 @@
 [package]
 name = "voxlan"
-version = "1.1.1"
+version = "1.2.1"
 edition = "2024"
 authors = ["Santosh Shrestha <santoshxshrestha@gmail.com> "]
-description = "Reserved crate name. Work in progress."
+description = "Tool that scans open TCP ports locally and runs a proxy server forwarding requests to the detected service."
 license = "MIT"
 repository = "https://github.com/santoshxshrestha/voxlan"
 homepage = "https://github.com/santoshxshrestha/voxlan"
