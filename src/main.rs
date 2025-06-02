@@ -80,7 +80,7 @@ async fn main() -> std::io::Result<()> {
     let ip = "127.0.0.1";
     let mut handles = vec![];
 
-    for port in 1..1000 {
+    for port in 1..5000 {
         let ip = ip.to_string();
         handles.push(std::thread::spawn(move || scan_port(&ip, port)));
     }
