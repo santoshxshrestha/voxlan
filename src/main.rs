@@ -1,6 +1,5 @@
-use std::{net::TcpStream, thread, time::Duration};
-
-use std::net::UdpSocket;
+use std::net::{TcpStream, UdpSocket};
+use std::{thread, time::Duration};
 
 fn get_local_ip() -> std::io::Result<std::net::IpAddr> {
     let socket = UdpSocket::bind("0.0.0.0:0").expect("couldn't bind to address");
