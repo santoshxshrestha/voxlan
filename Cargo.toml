@@ -2,7 +2,13 @@
 name = "voxlan"
 version = "0.1.0"
 edition = "2024"
+authors = ["Santosh Shrestha <santoshxshrestha@gmail.com> "]
 description = "Reserved crate name. Work in progress."
+license = "MIT"
+repository = "https://github.com/santoshxshrestha/voxlan"
+homepage = "https://github.com/santoshxshrestha/voxlan"
+documentation = "https://github.com/santoshxshrestha/voxlan#readme"
+readme = "README.md"
 
 [dependencies]
 tokio = { version = "1.45.1", features = ["full"] }
