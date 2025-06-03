@@ -21,7 +21,7 @@ VoxLAN is a sophisticated LAN proxy server built in Rust that discovers and mana
 ### Current Features
 
 - 🔍 **Network Discovery**: Automatically scans and identifies open ports on local network
-- 󰐲 QR Access: Generates QR codes for quick and easy access
+- 🌐 **HTTP Proxy Server**: Forwards HTTP requests with intelligent routing
 - 📊 **Real-time Monitoring**: Live port scanning and network status reporting
 - 🔄 **Request Forwarding**: Seamless proxy functionality for local services
 - 🚀 **High Performance**: Built with Actix-web for optimal performance
@@ -75,7 +75,7 @@ voxlan
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Client        │────│   VoxLAN        │────│   Target        │
 │   Request       │    │   Proxy         │    │   Service       │
-│                 │    │   :8081         │    │   :Active port  │
+│                 │    │   :8081         │    │   :Active prt         │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
