@@ -16,6 +16,7 @@ use std::time::Duration;
 /// then starts a proxy server forwarding requests to the first detected open port.
 /// It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
 #[derive(Parser, Debug)]
+#[clap(author, version, about)]
 struct Args {
     ///assign specific port to connect to
     #[arg(short, long)]
