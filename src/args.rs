@@ -1,4 +1,4 @@
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, ColorChoice, Parser, Subcommand};
 
 /// Voice of the LAN - A powerful LAN proxy that speaks your network's language.
 /// It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
@@ -6,6 +6,8 @@ use clap::{Args, Parser, Subcommand};
 /// It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
 #[derive(Parser, Debug)]
 #[clap(author, version, about)]
+#[clap(color = ColorChoice::Always)]
+#[clap(styles = get_styles())]
 pub struct VoxlanArgs {
     #[command(subcommand)]
     pub command: Commands,
@@ -22,4 +24,39 @@ pub struct RunArgs {
     /// Specify the target port to forward traffic to.
     #[arg(short, long)]
     pub port: Option<u16>,
+}
+
+fn get_styles() -> clap::builder::Styles {
+    clap::builder::Styles::styled()
+        .header(
+            anstyle::Style::new()
+                .bold()
+                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Blue))),
+        )
+        .usage(
+            anstyle::Style::new()
+                .bold()
+                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Green))),
+        )
+        .literal(
+            anstyle::Style::new().fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Cyan))),
+        )
+        .placeholder(
+            anstyle::Style::new().fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Yellow))),
+        )
+        .error(
+            anstyle::Style::new()
+                .bold()
+                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Red))),
+        )
+        .valid(
+            anstyle::Style::new()
+                .bold()
+                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Green))),
+        )
+        .invalid(
+            anstyle::Style::new()
+                .bold()
+                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Red))),
+        )
 }
