@@ -11,16 +11,19 @@ use std::net::{TcpStream, UdpSocket};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-/// Voice of the LAN - A powerful LAN proxy that speaks your network's language
+/// Voice of the LAN - A powerful LAN proxy that speaks your network's language.
 /// It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
 /// then starts a proxy server forwarding requests to the first detected open port.
 /// It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
 #[derive(Parser, Debug)]
 struct Args {
+    ///assign specific port to connect to
     #[arg(short, long)]
-    port: String,
+    port: u16,
+
+    ///list all the open ports
     #[arg(short, long)]
-    list: String,
+    list: bool,
 }
 
 fn get_local_ip() -> Option<String> {
