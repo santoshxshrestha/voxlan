@@ -8,9 +8,11 @@ It provides real-time feedback via terminal animations and supports forwarding H
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> [!WARNING] > **Development Status**: Currently in active development. The proxy functionality is being enhanced and may contain bugs.
+> [!WARNING]
+> **Development Status**: Currently in active development. The proxy functionality is being enhanced and may contain bugs.
 
-> [!IMPORTANT] > **Current Functionality**: Basic network discovery and HTTP proxy capabilities. Advanced features are planned for future releases.
+> [!IMPORTANT]
+> **Current Functionality**: Basic network discovery and HTTP proxy capabilities. Advanced features are planned for future releases.
 
 ## 🚀 What is VoxLAN?
 
