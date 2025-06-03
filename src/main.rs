@@ -10,14 +10,15 @@ use qr2term::print_qr;
 use reqwest::Client;
 mod net;
 use net::{get_local_ip, get_port, scan_port};
+use std::sync::{Arc, Mutex};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let local_ip = get_local_ip().unwrap_or_else(|| "localhost".to_string());
 
     let args = VoxlanArgs::parse();
-    let mut backend_port: u16 = 0;
-    let mut link: String = String::new();
+    let link = Arc::new(Mutex::new(String::new()));
+    let backend_port = Arc::new(Mutex::new(0u16));
 
     match args.command {
         args::Commands::Run(run_args) => {
@@ -26,8 +27,9 @@ async fn main() -> std::io::Result<()> {
                 Some(number) => {
                     if scan_port(number as usize) {
                         println!("Got the port {}", number);
-                        backend_port = number;
-                        link = format!("http://{}:8081", local_ip);
+                        // let backend_port = Rc::clone(&backend_port);
+                        *backend_port.lock().unwrap() = number;
+                        *link.lock().unwrap() = format!("http://{}:8081", local_ip);
                     } else {
                         println!("The port is not active check the server again or list the port and try again");
                         return Ok(());
@@ -52,8 +54,8 @@ async fn main() -> std::io::Result<()> {
                     }
 
                     // Use the first open port as the backend
-                    backend_port = final_open_ports[0] as u16;
-                    link = format!("http://{}:8081", local_ip);
+                    *backend_port.lock().unwrap() = final_open_ports[0] as u16;
+                    *link.lock().unwrap() = format!("http://{}:8081", local_ip);
                 }
             }
         }
@@ -64,17 +66,23 @@ async fn main() -> std::io::Result<()> {
     println!("======================================================");
     println!("Proxy running on: http://{}:8081", local_ip);
     println!("======================================================");
-    println!("Forwarding requests to: http://localhost:{}", backend_port);
-    println!("Backend service: http://localhost:{}", backend_port);
+    println!(
+        "Forwarding requests to: http://localhost:{}",
+        *backend_port.lock().unwrap()
+    );
+    println!(
+        "Backend service: http://localhost:{}",
+        *backend_port.lock().unwrap()
+    );
 
     println!();
     println!("======================================================");
     println!(
         "You can access the proxy at: {}\n on your other devices connected to the same network",
-        link
+        link.lock().unwrap()
     );
     println!("Here is the qr for you easy access");
-    if let Err(e) = print_qr(link) {
+    if let Err(e) = print_qr(link.lock().unwrap().to_string()) {
         eprintln!("Failed to print QR code: {}", e);
     }
     println!("Happy coding :) ");
@@ -86,7 +94,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .app_data(web::Data::new(backend_port))
+            .app_data(web::Data::new(backend_port.clone()))
             .default_service(web::route().to(proxy))
     })
     .bind("0.0.0.0:8081")?
