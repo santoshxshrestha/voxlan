@@ -195,8 +195,8 @@ voxlan run -p <port>
 ### Default Settings
 
 - **Proxy Port**: 8081
-- **Target Port**: 8080
-- **Scan Range**: 1-5000
+- **Target Port**: UserSpecified(By default opened port)
+- **Scan Range**: 1-10000
 - **Timeout**: 100ms per port
 
 ## 📋 Roadmap
@@ -289,12 +289,13 @@ sudo voxlan
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Dependencies
 
 - [Actix Web](https://actix.rs/) - High-performance web framework
-- [Reqwest](https://github.com/seanmonstar/reqwest) - HTTP client library
-- [Clap](https://github.com/clap-rs/clap) - Command line argument parser
-
+- [Clap](https://github.com/clap-rs/clap) - Command line argument parser with derive macros
+- [QR2Term](https://github.com/craciuncezar/qr2term) - Terminal QR code generator and display library
+- [Reqwest](https://github.com/seanmonstar/reqwest) - HTTP client library with JSON support
+- [Tokio](https://tokio.rs/) - Asynchronous runtime for Rust with full feature set
   ***
 
 🐛 **Issues**: [GitHub Issues](https://github.com/santoshxshrestha/voxlan/issues)
