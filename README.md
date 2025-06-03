@@ -288,14 +288,12 @@ sudo voxlan
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Dependencies
-
-- [Actix Web](https://actix.rs/) - High-performance web framework
-- [Clap](https://github.com/clap-rs/clap) - Command line argument parser with derive macros
-- [QR2Term](https://github.com/craciuncezar/qr2term) - Terminal QR code generator and display library
-- [Reqwest](https://github.com/seanmonstar/reqwest) - HTTP client library with JSON support
-- [Tokio](https://tokio.rs/) - Asynchronous runtime for Rust with full feature set
+- 🚀 Actix Web - High-performance web framework
+- ⚙️ Clap - Command line argument parser with derive macros
+- 🔳 QR2Term - Terminal QR code generator and display library
+- 🌐 Reqwest - HTTP client library with JSON support
+- ⚡ Tokio - Asynchronous runtime for Rust with full feature set
   ***
 
 🐛 **Issues**: [GitHub Issues](https://github.com/santoshxshrestha/voxlan/issues)
