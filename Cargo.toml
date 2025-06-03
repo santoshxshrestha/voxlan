@@ -12,7 +12,8 @@ readme = "README.md"
 
 [dependencies]
 actix-web = "4.11.0"
-clap = { version = "4.5.39", features = ["derive"] }
+anstyle = "1.0.10"
+clap = { version = "4.5.39", features = ["color", "derive"] }
 qr2term = "0.3.3"
 reqwest = { version = "0.12.19", features = ["json"] }
 tokio = { version = "1.45.1", features = ["full"] }
