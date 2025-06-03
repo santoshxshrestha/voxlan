@@ -8,9 +8,11 @@ It provides real-time feedback via terminal animations and supports forwarding H
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> [!WARNING] > **Development Status**: Currently in active development. The proxy functionality is being enhanced and may contain bugs.
+> [!WARNING]
+> **Development Status**: Currently in active development. The proxy functionality is being enhanced and may contain bugs.
 
-> [!IMPORTANT] > **Current Functionality**: Basic network discovery and HTTP proxy capabilities. Advanced features are planned for future releases.
+> [!IMPORTANT]
+> **Current Functionality**: Basic network discovery and HTTP proxy capabilities. Advanced features are planned for future releases.
 
 ## 🚀 What is VoxLAN?
 
@@ -31,23 +33,124 @@ VoxLAN is a sophisticated LAN proxy server built in Rust that discovers and mana
 - 📋 **Filter Lists**: Advanced filtering capabilities for network traffic
 - 🎛️ **CLI Interface**: Comprehensive command-line interface with clap integration
 - 🔢 **Device Selection**: Target specific devices by number or identifier
-- 🎨 **Enhanced UI**: Rich terminal interface similar to [nexish](https://github.com/santoshxshrestha/nexish)
+- 🎨 **Enhanced UI**: Rich terminal interface similar to [voxlan](https://github.com/santoshxshrestha/voxlan)
 - 📡 **Custom Request Handling**: Flexible request processing and routing
 - 🔐 **Security Features**: Traffic filtering and access control
 
-## 🛠️ Installation
+You have three options: via Cargo, via prebuilt script, or manual install.
 
-### Prerequisites
+### 🔹 1. Easiest: Install via Cargo (Recommended)
 
-- Rust 1.70+
-- Cargo package manager
-
-### Build from Source
+If you have Rust installed, you can install directly from [crates.io](https://crates.io):
 
 ```bash
-# Install voxlan using the cargo
 cargo install voxlan
 ```
+
+This is the most "Rusty" and portable way.  
+It automatically downloads, compiles, and installs the latest version to your `$HOME/.cargo/bin`.
+
+> If you want even faster installs with prebuilt binaries, check out [cargo-binstall](https://github.com/cargo-bins/cargo-binstall):
+
+```bash
+cargo binstall voxlan
+```
+
+---
+
+### 🔹 2. Quick Install via Script
+
+**Alternative:** Installs the latest release binary to your system PATH.
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/santoshxshrestha/voxlan/main/scripts/install.sh | bash
+```
+
+- This script will:
+  1. Build `voxlan` in release mode (if Rust is present).
+  2. Copy the binary to `/usr/local/bin`.
+  3. Make it executable.
+
+> **Tip:** You may need to enter your password for `sudo` privileges.
+
+---
+
+### 🔹 3. Manual Build & Install
+
+If you prefer full control or want to customize the build:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/santoshxshrestha/voxlan.git
+   cd voxlan
+   ```
+
+2. **Build the Release Binary:**
+
+   ```bash
+   cargo build --release
+   ```
+
+   This places the binary at `target/release/voxlan`.
+
+3. **Copy to a PATH directory (e.g., `/usr/local/bin`):**
+
+   ```bash
+   sudo cp target/release/voxlan /usr/local/bin/voxlan
+   ```
+
+4. **(Optional) Ensure executable permission:**
+
+   ```bash
+   sudo chmod +x /usr/local/bin/voxlan
+   ```
+
+5. **Run from anywhere:**
+
+   ```bash
+   voxlan
+   ```
+
+---
+
+## 🗑️ Uninstallation
+
+You can uninstall using the provided script or manually:
+
+### 🔹 1. Quick Uninstall via Script
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/santoshxshrestha/voxlan/main/scripts/uninstall.sh | bash
+```
+
+### 🔹 2. Manual Uninstall
+
+Remove the binary from your PATH:
+
+```bash
+sudo rm /usr/local/bin/voxlan
+```
+
+or
+
+```bash
+sudo rm /usr/bin/voxlan
+```
+
+If you also want to remove your cloned repository:
+
+```bash
+rm -rf ~/voxlan
+```
+
+If installed with Cargo:
+
+```bash
+cargo uninstall voxlan
+```
+
+---
 
 ## 🎮 Usage
 
@@ -112,7 +215,7 @@ voxlan
 
 ### Phase 3: Advanced Features 📋
 
-- [ ] Rich terminal UI (nexish-style)
+- [ ] Rich terminal UI (voxlan-style)
 - [ ] Real-time network monitoring
 - [ ] Traffic filtering and rules
 - [ ] Configuration file support
