@@ -7,19 +7,19 @@ use clap::{Args, Parser, Subcommand};
 #[derive(Parser, Debug)]
 #[clap(author, version, about)]
 pub struct VoxlanArgs {
-    ///assign specific port to connect to
     #[command(subcommand)]
     pub command: Commands,
 }
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    //Run a proxy server
+    ///Run a proxy server
     Run(RunArgs),
 }
 
 #[derive(Args, Debug)]
 pub struct RunArgs {
+    /// Specify the target port to forward traffic to.
     #[arg(short, long)]
     pub port: Option<u16>,
 }
