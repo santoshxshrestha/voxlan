@@ -1,4 +1,3 @@
-#![allow(unused)]
 mod args;
 use clap::Parser;
 mod animation;
@@ -10,28 +9,55 @@ use args::VoxlanArgs;
 use qr2term::print_qr;
 use reqwest::Client;
 mod net;
-use net::{get_local_ip, get_port};
+use net::{get_local_ip, get_port, scan_port};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let args = VoxlanArgs::parse();
-
     let local_ip = get_local_ip().unwrap_or_else(|| "localhost".to_string());
 
-    let final_open_ports = get_port();
-    println!("\n=== PORT SCAN RESULTS ===");
-    if final_open_ports.is_empty() {
-        println!("No open ports found in range 1-9999.");
-        println!("Cannot start proxy without a backend service!");
-        return Ok(());
-    } else {
-        println!("Open ports found: {:?}", final_open_ports);
-        println!("Total open ports: {}", final_open_ports.len());
-    }
+    let args = VoxlanArgs::parse();
+    let mut backend_port: u16 = 0;
+    let mut link: String = String::new();
 
-    // Use the first open port as the backend
-    let backend_port = final_open_ports[0] as u16;
-    let link = format!("http://{}:8081", local_ip);
+    match args.command {
+        args::Commands::Run(run_args) => {
+            let port_number = run_args.port;
+            match port_number {
+                Some(number) => {
+                    if scan_port(number as usize) {
+                        println!("Got the port {}", number);
+                        backend_port = number;
+                        link = format!("http://{}:8081", local_ip);
+                    } else {
+                        println!("The port is not active check the server again or list the port and try again");
+                        return Ok(());
+                    }
+                }
+                None => {
+                    let final_open_ports = get_port();
+                    println!("\n=== PORT SCAN RESULTS ===");
+                    if final_open_ports.is_empty() {
+                        println!("No open ports found in range 1-9999.");
+                        println!("Cannot start proxy without a backend service!");
+                        return Ok(());
+                    } else {
+                        println!("Open ports found: {:?}", final_open_ports);
+                    }
+
+                    if final_open_ports.len() > 1 {
+                        println!("Total open ports: {}", final_open_ports.len());
+                        println!(
+                            "You have to manually specify the port that you want to use by -p <port> flag"
+                        );
+                    }
+
+                    // Use the first open port as the backend
+                    backend_port = final_open_ports[0] as u16;
+                    link = format!("http://{}:8081", local_ip);
+                }
+            }
+        }
+    }
 
     println!("\n=== PROXY SERVER INFO ===");
     show_pulsing();
@@ -48,7 +74,9 @@ async fn main() -> std::io::Result<()> {
         link
     );
     println!("Here is the qr for you easy access");
-    print_qr(link).unwrap();
+    if let Err(e) = print_qr(link) {
+        eprintln!("Failed to print QR code: {}", e);
+    }
     println!("Happy coding :) ");
 
     start_spinner();
