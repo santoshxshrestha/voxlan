@@ -156,7 +156,10 @@ cargo uninstall voxlan
 
 ```bash
 # Start VoxLAN with default settings
-voxlan
+voxlan run
+
+# Start VoxLAN by targeting specific port
+voxlan run -p <port>
 
 # The proxy will start on port 8081 by default
 # Access via: http://your-local-ip:8081
