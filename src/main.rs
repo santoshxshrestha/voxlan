@@ -1,6 +1,7 @@
 mod animation;
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer};
 use animation::{show_pulsing, start_spinner};
+use qr2term::print_qr;
 use reqwest::Client;
 use std::net::{TcpStream, UdpSocket};
 use std::sync::{Arc, Mutex};
@@ -147,6 +148,8 @@ async fn main() -> std::io::Result<()> {
         "You can access the proxy at: {}\n on your other devices connected to the same network",
         link
     );
+    println!("Here is the qr for you easy access");
+    print_qr(link).unwrap();
     println!("Happy coding :) ");
 
     start_spinner();
