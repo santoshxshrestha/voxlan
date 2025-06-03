@@ -131,6 +131,7 @@ async fn main() -> std::io::Result<()> {
 
     // Use the first open port as the backend
     let backend_port = final_open_ports[0] as u16;
+    let link = format!("http://{}:8081", local_ip);
 
     println!("\n=== PROXY SERVER INFO ===");
     show_pulsing();
@@ -142,7 +143,10 @@ async fn main() -> std::io::Result<()> {
 
     println!();
     println!("======================================================");
-    println!("You can access the proxy at: http://{}:8081\n on your other devices connected to the same network", local_ip);
+    println!(
+        "You can access the proxy at: {}\n on your other devices connected to the same network",
+        link
+    );
     println!("Happy coding :) ");
 
     start_spinner();
