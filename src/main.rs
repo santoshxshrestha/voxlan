@@ -1,3 +1,5 @@
+#![allow(unused)]
+use clap::Parser;
 mod animation;
 mod proxy;
 use crate::proxy::proxy;
@@ -8,6 +10,18 @@ use reqwest::Client;
 use std::net::{TcpStream, UdpSocket};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
+
+/// Voice of the LAN - A powerful LAN proxy that speaks your network's language
+/// It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
+/// then starts a proxy server forwarding requests to the first detected open port.
+/// It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
+#[derive(Parser, Debug)]
+struct Args {
+    #[arg(short, long)]
+    port: String,
+    #[arg(short, long)]
+    list: String,
+}
 
 fn get_local_ip() -> Option<String> {
     let socket = UdpSocket::bind("0.0.0.0:0").ok()?;
@@ -23,6 +37,7 @@ fn scan_port(ip: &str, port: usize) -> bool {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let args = Args::parse();
     // let the_ip = "127.0.0.1";
     let local_ip = get_local_ip().unwrap_or_else(|| "localhost".to_string());
     // println!("Local IP: {}", local_ip);
