@@ -288,8 +288,11 @@ sudo voxlan
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Dependencies
+
 - 🚀 Actix Web - High-performance web framework
+- 🎯 Anstyle - ANSI styling for clap's help and error message formatting
 - ⚙️ Clap - Command line argument parser with derive macros
 - 🔳 QR2Term - Terminal QR code generator and display library
 - 🌐 Reqwest - HTTP client library with JSON support
