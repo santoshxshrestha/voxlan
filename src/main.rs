@@ -152,7 +152,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .app_data(web::Data::new(backend_port.clone()))
+            .app_data(web::Data::new(*backend_port.lock().unwrap()))
             .default_service(web::route().to(proxy))
     })
     .bind("0.0.0.0:8081")?

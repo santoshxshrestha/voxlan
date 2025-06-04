@@ -3,8 +3,13 @@ use actix_web::web;
 use actix_web::HttpRequest;
 use actix_web::HttpResponse;
 
-pub async fn proxy(req: HttpRequest, body: web::Bytes, client: web::Data<Client>) -> HttpResponse {
-    let backend_url = format!("http://localhost:8080{}", req.uri());
+pub async fn proxy(
+    req: HttpRequest,
+    body: web::Bytes,
+    client: web::Data<Client>,
+    backend_port: web::Data<u16>,
+) -> HttpResponse {
+    let backend_url = format!("http://localhost:{}{}", *backend_port, req.uri());
     let method = match req.method().as_str() {
         "GET" => reqwest::Method::GET,
         "POST" => reqwest::Method::POST,
