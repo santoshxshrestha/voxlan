@@ -40,6 +40,7 @@ pub struct CommonArgs {
     #[arg(short, long)]
     pub port: Option<u16>,
 
+    /// HTTP endpoint path (client mode only)
     #[arg(long, default_value = "/")]
     pub path: String,
 }
