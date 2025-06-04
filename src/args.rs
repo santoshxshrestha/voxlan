@@ -17,6 +17,9 @@ pub struct VoxlanArgs {
 pub enum Commands {
     ///Run a proxy server
     Run(RunArgs),
+
+    ///List all the open ports
+    List,
 }
 
 #[derive(Args, Debug)]

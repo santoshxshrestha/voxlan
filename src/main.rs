@@ -59,6 +59,17 @@ async fn main() -> std::io::Result<()> {
                 }
             }
         }
+        args::Commands::List => {
+            let final_open_ports = get_port();
+            println!("\n=== PORT SCAN RESULTS ===");
+            if final_open_ports.is_empty() {
+                println!("No open ports found in range 1-9999.");
+                return Ok(());
+            } else {
+                println!("Open ports found: {:?}", final_open_ports);
+                return Ok(());
+            }
+        }
     }
 
     println!("\n=== PROXY SERVER INFO ===");
