@@ -87,7 +87,7 @@ async fn main() -> std::io::Result<()> {
             match (port_number, path) {
                 (Some(number), path) => {
                     if scan_port(number as usize) {
-                        client(number, path).unwrap();
+                        client(number, path).await.unwrap();
                         return Ok(());
                     } else {
                         println!("The port is not active check the server again or list the port and try again");
@@ -103,7 +103,7 @@ async fn main() -> std::io::Result<()> {
                         return Ok(());
                     } else {
                         println!("Open ports found: {:?}", final_open_ports);
-                        client(final_open_ports[0] as u16, path).unwrap();
+                        client(final_open_ports[0] as u16, path).await.unwrap();
                     };
 
                     if final_open_ports.len() > 1 {
