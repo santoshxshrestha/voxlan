@@ -29,13 +29,6 @@ pub struct RunArgs {
     pub port: Option<u16>,
 }
 
-// #[derive(Args, Debug)]
-// pub struct ListArgs {
-//     /// Specify the list of the ports that are open.
-//     #[arg(short, long)]
-//     pub all: Option<String>,
-// }
-
 fn get_styles() -> clap::builder::Styles {
     clap::builder::Styles::styled()
         .header(
