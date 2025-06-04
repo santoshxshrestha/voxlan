@@ -2,8 +2,8 @@ use reqwest;
 use std::io::{self, Write};
 
 #[tokio::main]
-pub async fn client(port: u16) -> Result<(), Box<dyn std::error::Error>> {
-    println!("🚀 Echo Server Client");
+pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
+    println!("🚀Server Client");
     println!(
         "Make sure your server is running on http://localhost:{}",
         port
@@ -29,7 +29,7 @@ pub async fn client(port: u16) -> Result<(), Box<dyn std::error::Error>> {
             continue;
         }
 
-        match send_to_server(&client, message).await {
+        match send_to_server(&client, message, port, path.clone()).await {
             Ok(response) => println!("✅ Server replied: {}", response),
             Err(e) => println!("❌ Error: {}", e),
         }
@@ -43,9 +43,10 @@ pub async fn send_to_server(
     client: &reqwest::Client,
     message: &str,
     port: u16,
+    path: String,
 ) -> Result<String, reqwest::Error> {
     let response = client
-        .post("http://localhost:{port}/echo")
+        .post(format!("http://localhost:{}/{}", port, path))
         .header("Content-Type", "text/plain")
         .body(message.to_string())
         .send()
