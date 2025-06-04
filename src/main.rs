@@ -1,8 +1,5 @@
 mod args;
-use std::{
-    cmp::Ordering,
-    sync::atomic::{self, AtomicU16, Ordering},
-};
+use std::sync::atomic::{self, AtomicU16};
 mod client;
 use clap::Parser;
 mod animation;

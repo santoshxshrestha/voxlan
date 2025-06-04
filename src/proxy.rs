@@ -1,4 +1,4 @@
-use std::sync::atomic::AtomicU16;
+use std::sync::atomic::{AtomicU16, Ordering};
 use std::sync::Arc;
 
 use crate::Client;
@@ -12,7 +12,7 @@ pub async fn proxy(
     client: web::Data<Client>,
     backend_port: web::Data<Arc<AtomicU16>>,
 ) -> HttpResponse {
-    let port = backend_port.load(std::sync::atomic::Ordering::Relaxed);
+    let port = backend_port.load(Ordering::Relaxed);
     let backend_url = format!("http://localhost:{}{}", port, req.uri());
     let method = match req.method().as_str() {
         "GET" => reqwest::Method::GET,
