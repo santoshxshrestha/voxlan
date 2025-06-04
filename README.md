@@ -163,6 +163,12 @@ voxlan run
 # Start VoxLAN by targeting specific port
 voxlan run -p <port>
 
+# List of all the open ports
+voxlan list
+
+# Get help for specific command
+voxlan <command> -h 
+
 # The proxy will start on port 8081 by default
 # Access via: http://your-local-ip:8081
 # Info will be in the terminal
