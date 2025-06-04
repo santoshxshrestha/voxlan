@@ -167,7 +167,15 @@ voxlan run -p <port>
 voxlan list
 
 # Get help for specific command
-voxlan <command> -h 
+voxlan <command> -h
+
+# Run the client
+voxlan client -p <port> --path <path>
+port(optional),
+default path is /
+
+# Help for the client
+voxlan client --help
 
 # The proxy will start on port 8081 by default
 # Access via: http://your-local-ip:8081
