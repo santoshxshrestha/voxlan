@@ -30,8 +30,8 @@ pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::E
         }
 
         match send_to_server(&client, message, port, path.clone()).await {
-            Ok(response) => println!("✅ Server replied: {}", response),
-            Err(e) => println!("❌ Error: {}", e),
+            Ok(response) => println!("✓ Server replied: {}", response),
+            Err(e) => println!("󰞇 Error: {}", e),
         }
         println!();
     }
