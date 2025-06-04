@@ -1,4 +1,5 @@
 mod args;
+use std::sync::atomic::{AtomicU16, Ordering};
 mod client;
 use clap::Parser;
 mod animation;
