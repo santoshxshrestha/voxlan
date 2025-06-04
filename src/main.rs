@@ -14,6 +14,15 @@ use std::sync::{Arc, Mutex};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let art = r#"
+  _    __           __    ___    _   __
+ | |  / /___  _  __/ /   /   |  / | / /
+ | | / / __ \| |/_/ /   / /| | /  |/ /
+ | |/ / /_/ />  </ /___/ ___ |/ /|  /  
+ |___/\____/_/|_/_____/_/  |_/_/ |_/   
+
+    "#;
+    println!("{art}");
     let local_ip = get_local_ip().unwrap_or_else(|| "localhost".to_string());
 
     let args = VoxlanArgs::parse();
