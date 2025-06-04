@@ -59,6 +59,9 @@ async fn main() -> std::io::Result<()> {
                 }
             }
         }
+        args::Commands::List => {
+            println!("hey there here is going to have the list of the open ports")
+        }
     }
 
     println!("\n=== PROXY SERVER INFO ===");

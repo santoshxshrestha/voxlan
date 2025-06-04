@@ -17,6 +17,9 @@ pub struct VoxlanArgs {
 pub enum Commands {
     ///Run a proxy server
     Run(RunArgs),
+
+    ///List all the open ports
+    List,
 }
 
 #[derive(Args, Debug)]
@@ -25,6 +28,13 @@ pub struct RunArgs {
     #[arg(short, long)]
     pub port: Option<u16>,
 }
+
+// #[derive(Args, Debug)]
+// pub struct ListArgs {
+//     /// Specify the list of the ports that are open.
+//     #[arg(short, long)]
+//     pub all: Option<String>,
+// }
 
 fn get_styles() -> clap::builder::Styles {
     clap::builder::Styles::styled()
