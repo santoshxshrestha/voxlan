@@ -67,6 +67,7 @@ async fn main() -> std::io::Result<()> {
                 return Ok(());
             } else {
                 println!("Open ports found: {:?}", final_open_ports);
+                return Ok(());
             }
         }
     }
