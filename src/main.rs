@@ -1,5 +1,8 @@
 mod args;
-use std::sync::atomic::{AtomicU16, Ordering};
+use std::{
+    cmp::Ordering,
+    sync::atomic::{self, AtomicU16, Ordering},
+};
 mod client;
 use clap::Parser;
 mod animation;
@@ -30,7 +33,7 @@ async fn main() -> std::io::Result<()> {
 
     let args = VoxlanArgs::parse();
     let link = Arc::new(Mutex::new(String::new()));
-    let backend_port = Arc::new(Mutex::new(0u16));
+    let backend_port = Arc::new(AtomicU16::new(0));
 
     match args.command {
         args::Commands::Run(run_args) => {
@@ -39,8 +42,7 @@ async fn main() -> std::io::Result<()> {
                 Some(number) => {
                     if scan_port(number as usize) {
                         println!("Got the port {}", number);
-                        // let backend_port = Rc::clone(&backend_port);
-                        *backend_port.lock().unwrap() = number;
+                        backend_port.store(number, atomic::Ordering::Relaxed);
                         *link.lock().unwrap() = format!("http://{}:8081", local_ip);
                     } else {
                         println!("The port is not active check the server again or list the port and try again");
@@ -66,7 +68,7 @@ async fn main() -> std::io::Result<()> {
                     }
 
                     // Use the first open port as the backend
-                    *backend_port.lock().unwrap() = final_open_ports[0] as u16;
+                    backend_port.store(final_open_ports[0] as u16, atomic::Ordering::Relaxed);
                     *link.lock().unwrap() = format!("http://{}:8081", local_ip);
                 }
             }
@@ -127,11 +129,11 @@ async fn main() -> std::io::Result<()> {
     println!("======================================================");
     println!(
         "Forwarding requests to: http://localhost:{}",
-        *backend_port.lock().unwrap()
+        backend_port.load(atomic::Ordering::Relaxed)
     );
     println!(
         "Backend service: http://localhost:{}",
-        *backend_port.lock().unwrap()
+        backend_port.load(atomic::Ordering::Relaxed)
     );
 
     println!();
@@ -153,7 +155,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .app_data(web::Data::new(*backend_port.lock().unwrap()))
+            .app_data(web::Data::new(backend_port.clone()))
             .default_service(web::route().to(proxy))
     })
     .bind("0.0.0.0:8081")?
