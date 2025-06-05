@@ -1,10 +1,10 @@
-use std::sync::atomic::{AtomicU16, Ordering};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicU16, Ordering};
 
 use crate::Client;
-use actix_web::web;
 use actix_web::HttpRequest;
 use actix_web::HttpResponse;
+use actix_web::web;
 
 pub async fn proxy(
     req: HttpRequest,

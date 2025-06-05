@@ -5,7 +5,7 @@ use clap::Parser;
 mod animation;
 mod proxy;
 use crate::proxy::proxy;
-use actix_web::{web, App, HttpServer};
+use actix_web::{App, HttpServer, web};
 use animation::{show_pulsing, start_spinner};
 use args::VoxlanArgs;
 use qr2term::print_qr;
@@ -42,7 +42,9 @@ async fn main() -> std::io::Result<()> {
                         backend_port.store(number, atomic::Ordering::Relaxed);
                         *link.lock().unwrap() = format!("http://{}:8081", local_ip);
                     } else {
-                        println!("The port is not active check the server again or list the port and try again");
+                        println!(
+                            "The port is not active check the server again or list the port and try again"
+                        );
                         return Ok(());
                     }
                 }
@@ -90,7 +92,9 @@ async fn main() -> std::io::Result<()> {
                         client(number, path).await.unwrap();
                         return Ok(());
                     } else {
-                        println!("The port is not active check the server again or list the port and try again");
+                        println!(
+                            "The port is not active check the server again or list the port and try again"
+                        );
                         return Ok(());
                     };
                 }
@@ -152,7 +156,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .app_data(web::Data::new(backend_port.clone()))
+            .app_data(web::Data::new(Arc::clone(&backend_port)))
             .default_service(web::route().to(proxy))
     })
     .bind("0.0.0.0:8081")?
