@@ -156,7 +156,6 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .app_data(web::Data::new(backend_port.clone()))
             .app_data(web::Data::new(Arc::clone(&backend_port)))
             .default_service(web::route().to(proxy))
     })
