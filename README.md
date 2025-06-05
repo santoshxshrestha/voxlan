@@ -27,7 +27,6 @@ VoxLAN is a sophisticated LAN proxy server built in Rust that discovers and mana
 - 📋 **Filter Lists**: Advanced filtering capabilities for network traffic
 - 🎛️ **CLI Interface**: Comprehensive command-line interface with clap integration
 - 🔢 **Device Selection**: Target specific devices by number or identifier
-- 🎨 **Enhanced UI**: Rich terminal interface similar to [voxlan](https://github.com/santoshxshrestha/voxlan)
 - 📡 **Custom Request Handling**: Flexible request processing and routing
 - 🔐 **Security Features**: Traffic filtering and access control
 
