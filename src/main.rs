@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
     let args = VoxlanArgs::parse();
     let link = Arc::new(Mutex::new(String::new()));
     let backend_port = Arc::new(AtomicU16::new(0));
+    let port = Arc::new(AtomicU16::new(0));
 
     match args.command {
         args::Commands::Run(run_args) => {
@@ -42,6 +43,7 @@ async fn main() -> std::io::Result<()> {
                         println!("Got the port {}", bind);
                         backend_port.store(bind, atomic::Ordering::Relaxed);
                         *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
+                        port.store(target, atomic::Ordering::Relaxed);
                     } else {
                         println!(
                             "The port {} is not active check the server again or list the port and try again",
@@ -71,6 +73,7 @@ async fn main() -> std::io::Result<()> {
                     // Use the first open port as the backend
                     backend_port.store(final_open_ports[0] as u16, atomic::Ordering::Relaxed);
                     *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
+                    port.store(target, atomic::Ordering::Relaxed);
                 }
             }
         }
@@ -128,7 +131,7 @@ async fn main() -> std::io::Result<()> {
     println!("\n=== PROXY SERVER INFO ===");
     show_pulsing();
     println!("======================================================");
-    println!("Proxy running on: http://{}:8081", local_ip);
+    println!("Proxy running on: {}", link.lock().unwrap());
     println!("======================================================");
     println!(
         "Forwarding requests to: http://localhost:{}",
@@ -154,6 +157,8 @@ async fn main() -> std::io::Result<()> {
     start_spinner();
 
     let client = Client::new();
+    let ipprt = port.load(atomic::Ordering::Relaxed);
+    let pass = format!("0.0.0.0:{}", ipprt);
 
     HttpServer::new(move || {
         App::new()
@@ -161,7 +166,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(Arc::clone(&backend_port)))
             .default_service(web::route().to(proxy))
     })
-    .bind("0.0.0.0:8081")?
+    .bind(pass)?
     .run()
     .await
 }
