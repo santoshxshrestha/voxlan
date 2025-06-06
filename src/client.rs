@@ -2,8 +2,7 @@ use reqwest;
 use std::io::{self, Write};
 
 pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
-    println!("🚀 Starting Client on port: {} and path is {}", port, path);
-    println!("🚀Server Client");
+    println!("  Starting Client on port: {} and path is {}", port, path);
     println!(
         "Make sure your server is running on http://localhost:{}",
         port
