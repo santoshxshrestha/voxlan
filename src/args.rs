@@ -25,24 +25,31 @@ pub struct VoxlanArgs {
 #[derive(Subcommand, Debug)]
 pub enum Commands {
     ///Run a proxy server
-    Run(CommonArgs),
+    Run(RunArgs),
 
     ///List all the open ports
     List,
 
     ///Connect to the running server and send messages interactively via HTTP POST requests
-    Client(CommonArgs),
+    Client(ClientArgs),
 }
 
 #[derive(Args, Debug)]
-pub struct CommonArgs {
-    /// Specify the target port to forward traffic to.
+pub struct RunArgs {
+    /// Specify the target port to forward traffic to, port to bind the proxy server
     #[arg(short, long)]
-    pub port: Option<u16>,
+    pub bind_port: Option<u16>,
+}
 
+#[derive(Args, Debug)]
+pub struct ClientArgs {
     /// HTTP endpoint path (client mode only)
-    #[arg(long, default_value = "/")]
+    #[arg(long, short, default_value = "/")]
     pub path: String,
+
+    /// Specify the target port to forward traffic to, port to bind the proxy server
+    #[arg(short, long)]
+    pub bind_port: Option<u16>,
 }
 
 fn get_styles() -> clap::builder::Styles {

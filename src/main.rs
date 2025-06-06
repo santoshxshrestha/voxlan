@@ -34,7 +34,7 @@ async fn main() -> std::io::Result<()> {
 
     match args.command {
         args::Commands::Run(run_args) => {
-            let port_number = run_args.port;
+            let port_number = run_args.bind_port;
             match port_number {
                 Some(number) => {
                     if scan_port(number as usize) {
@@ -84,7 +84,7 @@ async fn main() -> std::io::Result<()> {
             }
         }
         args::Commands::Client(client_args) => {
-            let port_number = client_args.port;
+            let port_number = client_args.bind_port;
             let path = client_args.path;
             match (port_number, path) {
                 (Some(number), path) => {
