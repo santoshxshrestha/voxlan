@@ -34,21 +34,23 @@ async fn main() -> std::io::Result<()> {
 
     match args.command {
         args::Commands::Run(run_args) => {
-            let port_number = run_args.bind_port;
-            match port_number {
-                Some(number) => {
-                    if scan_port(number as usize) {
-                        println!("Got the port {}", number);
-                        backend_port.store(number, atomic::Ordering::Relaxed);
-                        *link.lock().unwrap() = format!("http://{}:8081", local_ip);
+            let bind_port = run_args.bind_port;
+            let target_port = run_args.target_port;
+            match (bind_port, target_port) {
+                (Some(bind), target) => {
+                    if scan_port(bind as usize) {
+                        println!("Got the port {}", bind);
+                        backend_port.store(bind, atomic::Ordering::Relaxed);
+                        *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
                     } else {
                         println!(
-                            "The port is not active check the server again or list the port and try again"
+                            "The port {} is not active check the server again or list the port and try again",
+                            bind
                         );
                         return Ok(());
                     }
                 }
-                None => {
+                (None, target) => {
                     let final_open_ports = get_port();
                     println!("\n=== PORT SCAN RESULTS ===");
                     if final_open_ports.is_empty() {
@@ -68,7 +70,7 @@ async fn main() -> std::io::Result<()> {
 
                     // Use the first open port as the backend
                     backend_port.store(final_open_ports[0] as u16, atomic::Ordering::Relaxed);
-                    *link.lock().unwrap() = format!("http://{}:8081", local_ip);
+                    *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
                 }
             }
         }
