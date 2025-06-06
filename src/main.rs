@@ -35,19 +35,19 @@ async fn main() -> std::io::Result<()> {
 
     match args.command {
         args::Commands::Run(run_args) => {
-            let bind_port = run_args.bind_port;
             let target_port = run_args.target_port;
-            match (bind_port, target_port) {
-                (Some(bind), target) => {
-                    if scan_port(bind as usize) {
-                        println!("Got the port {}", bind);
-                        target_port_atomic.store(bind, atomic::Ordering::Relaxed);
-                        *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
-                        bind_port_atomic.store(target, atomic::Ordering::Relaxed);
+            let bind_port = run_args.bind_port;
+            match (target_port, bind_port) {
+                (Some(target), bind) => {
+                    if scan_port(target as usize) {
+                        println!("Got the port {}", target);
+                        target_port_atomic.store(target, atomic::Ordering::Relaxed);
+                        *link.lock().unwrap() = format!("http://{}:{}", local_ip, bind);
+                        bind_port_atomic.store(bind, atomic::Ordering::Relaxed);
                     } else {
                         println!(
                             "The port {} is not active check the server again or list the port and try again",
-                            bind
+                            target
                         );
                         return Ok(());
                     }
