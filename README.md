@@ -153,6 +153,11 @@ cargo uninstall voxlan
 # Start VoxLAN with default settings
 voxlan run
 
+# Start VoxLAN by specifying the bind-port and target-port
+# (By default the voxlan is bound to 8081 and target would be the open port if it
+# is only one)
+voxlan run -b 8081 -t 8080
+
 # Start VoxLAN by targeting specific port
 voxlan run -b <bind-port>
 
@@ -167,18 +172,18 @@ voxlan client -b <bind-port> --path <path>
 voxlan client -b <bind-port> -p <path>
 bind-port(optional),
 default path is /
+> [!NOTE]
+> path should be specified without '/'
+eg voxlan client -b 8080 -p echo
 
 # Help for the client
 voxlan client --help
 
-# The proxy will start on port 8081 by default
-# Access via: http://your-local-ip:8081
-# Info will be in the terminal
 ```
 
 ### Current Workflow
 
-1. **Network Scan**: VoxLAN scans ports 1-5000 on localhost
+1. **Network Scan**: VoxLAN scans ports 1-10000 on localhost
 2. **Discovery**: Reports all open ports found
 3. **Proxy Start**: Launches HTTP proxy server on port 8081
 4. **Request Forwarding**: Forwards requests to localhost:8080
@@ -216,6 +221,7 @@ voxlan client --help
 - [x] Basic proxy functionality
 - [x] Network discovery
 - [x] HTTP request forwarding
+- [x] Add option to specify port
 
 ### Phase 2: CLI Integration 🚧
 
