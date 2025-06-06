@@ -15,7 +15,7 @@ pub async fn client(bind_port: u16, path: String) -> Result<(), Box<dyn std::err
     let client = reqwest::Client::new();
 
     loop {
-        print!("Message > ");
+        print!("Message 󰁕 ");
         io::stdout().flush()?;
 
         let mut input = String::new();
