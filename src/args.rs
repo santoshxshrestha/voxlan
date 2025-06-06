@@ -54,10 +54,6 @@ pub struct ClientArgs {
     /// Port to bind the proxy server to (where clients connect)
     #[arg(short = 'b', long)]
     pub bind_port: Option<u16>,
-
-    /// Target port to forward requests to (the actual service)
-    #[arg(short = 't', long, default_value = "8081")]
-    pub target_port: u16,
 }
 
 fn get_styles() -> clap::builder::Styles {
