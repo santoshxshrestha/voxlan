@@ -131,7 +131,10 @@ async fn main() -> std::io::Result<()> {
     println!("\n=== PROXY SERVER INFO ===");
     show_pulsing();
     println!("======================================================");
-    println!("Proxy running on: {}", link.lock().unwrap());
+    println!(
+        "Proxy running on: 0.0.0.0:{}",
+        bind_port_atomic.load(atomic::Ordering::Relaxed)
+    );
     println!("======================================================");
     println!(
         "Forwarding requests to: http://localhost:{}",
