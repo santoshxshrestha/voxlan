@@ -36,16 +36,20 @@ pub enum Commands {
 
 #[derive(Args, Debug)]
 pub struct RunArgs {
-    /// Specify the target port to forward traffic to.
+    /// Specify the target port to forward traffic to, port to bind the proxy server
     #[arg(short, long)]
-    pub port: Option<u16>,
+    pub bind_port: Option<u16>,
 }
 
 #[derive(Args, Debug)]
 pub struct ClientArgs {
     /// HTTP endpoint path (client mode only)
-    #[arg(long, default_value = "/")]
+    #[arg(long, short, default_value = "/")]
     pub path: String,
+
+    /// Specify the target port to forward traffic to, port to bind the proxy server
+    #[arg(short, long)]
+    pub bind_port: Option<u16>,
 }
 
 fn get_styles() -> clap::builder::Styles {
