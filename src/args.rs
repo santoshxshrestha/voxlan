@@ -36,19 +36,23 @@ pub enum Commands {
 
 #[derive(Args, Debug)]
 pub struct RunArgs {
-    /// Specify the target port to forward traffic to, port to bind the proxy server
-    #[arg(short, long)]
-    pub bind_port: Option<u16>,
+    /// Port to bind proxy server to
+    #[arg(short = 'b', long, default_value = "8081")]
+    pub bind_port: u16,
+
+    /// Port to forward requests to (auto-selected if omitted)
+    #[arg(short = 't', long)]
+    pub target_port: Option<u16>,
 }
 
 #[derive(Args, Debug)]
 pub struct ClientArgs {
     /// HTTP endpoint path (client mode only)
-    #[arg(long, short, default_value = "/")]
+    #[arg(long, short = 'p', default_value = "/")]
     pub path: String,
 
-    /// Specify the target port to forward traffic to, port to bind the proxy server
-    #[arg(short, long)]
+    /// Port to bind client to (auto-selected if omitted)
+    #[arg(short = 'b')]
     pub bind_port: Option<u16>,
 }
 

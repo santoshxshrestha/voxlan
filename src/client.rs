@@ -1,19 +1,21 @@
 use reqwest;
 use std::io::{self, Write};
 
-pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
-    println!("🚀 Starting Client on port: {} and path is {}", port, path);
-    println!("🚀Server Client");
+pub async fn client(bind_port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
+    println!(
+        "  Starting Client on port: {} and path is {}",
+        bind_port, path
+    );
     println!(
         "Make sure your server is running on http://localhost:{}",
-        port
+        bind_port
     );
     println!("Type messages to send (or 'quit' to exit):\n");
 
     let client = reqwest::Client::new();
 
     loop {
-        print!("Message > ");
+        print!("Message 󰁕 ");
         io::stdout().flush()?;
 
         let mut input = String::new();
@@ -21,7 +23,7 @@ pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::E
         let message = input.trim();
 
         if message == "quit" || message == "q" || message == "exit" {
-            println!("👋 Goodbye!");
+            println!("󱠡 Goodbye!");
             break;
         }
 
@@ -29,7 +31,7 @@ pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::E
             continue;
         }
 
-        match send_to_server(&client, message, port, path.clone()).await {
+        match send_to_server(&client, message, bind_port, path.clone()).await {
             Ok(response) => println!("✓ Server replied: {}", response),
             Err(e) => println!("󰞇 Error: {}", e),
         }

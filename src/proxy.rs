@@ -10,9 +10,9 @@ pub async fn proxy(
     req: HttpRequest,
     body: web::Bytes,
     client: web::Data<Client>,
-    backend_port: web::Data<Arc<AtomicU16>>,
+    target_port_atomic: web::Data<Arc<AtomicU16>>,
 ) -> HttpResponse {
-    let port = backend_port.load(Ordering::Relaxed);
+    let port = target_port_atomic.load(Ordering::Relaxed);
     let backend_url = format!("http://localhost:{}{}", port, req.uri());
     let method = match req.method().as_str() {
         "GET" => reqwest::Method::GET,
