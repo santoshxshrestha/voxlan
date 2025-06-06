@@ -41,8 +41,8 @@ pub struct RunArgs {
     pub bind_port: Option<u16>,
 
     /// Target port to forward requests to (the actual service)
-    #[arg(short = 't', long)]
-    pub target_port: Option<u16>,
+    #[arg(short = 't', long, default_value = "8081")]
+    pub target_port: u16,
 }
 
 #[derive(Args, Debug)]
@@ -56,8 +56,8 @@ pub struct ClientArgs {
     pub bind_port: Option<u16>,
 
     /// Target port to forward requests to (the actual service)
-    #[arg(short = 't', long)]
-    pub target_port: Option<u16>,
+    #[arg(short = 't', long, default_value = "8081")]
+    pub target_port: u16,
 }
 
 fn get_styles() -> clap::builder::Styles {
