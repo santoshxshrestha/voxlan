@@ -37,12 +37,12 @@ pub enum Commands {
 #[derive(Args, Debug)]
 pub struct RunArgs {
     /// Port to bind proxy server to (auto-selected if omitted)
-    #[arg(short = 'b', long)]
-    pub bind_port: Option<u16>,
+    #[arg(short = 'b', long, default_value = "8081")]
+    pub bind_port: u16,
 
     /// Port to forward requests to
-    #[arg(short = 't', long, default_value = "8081")]
-    pub target_port: u16,
+    #[arg(short = 't', long)]
+    pub target_port: Option<u16>,
 }
 
 #[derive(Args, Debug)]
@@ -52,8 +52,8 @@ pub struct ClientArgs {
     pub path: String,
 
     /// Port to bind proxy server to (auto-selected if omitted)
-    #[arg(short = 'b', long)]
-    pub bind_port: Option<u16>,
+    #[arg(short = 'b', long, default_value = "8081")]
+    pub bind_port: u16,
 }
 
 fn get_styles() -> clap::builder::Styles {
