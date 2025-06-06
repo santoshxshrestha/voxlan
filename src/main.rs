@@ -89,12 +89,12 @@ async fn main() -> std::io::Result<()> {
             }
         }
         args::Commands::Client(client_args) => {
-            let port_number = client_args.target;
+            let bind_port = client_args.bind_port;
             let path = client_args.path;
-            match (port_number, path) {
-                (Some(number), path) => {
-                    if scan_port(number as usize) {
-                        client(number, path).await.unwrap();
+            match (bind_port, path) {
+                (Some(port), path) => {
+                    if scan_port(port as usize) {
+                        client(port, path).await.unwrap();
                         return Ok(());
                     } else {
                         println!(
@@ -104,19 +104,19 @@ async fn main() -> std::io::Result<()> {
                     };
                 }
                 (None, path) => {
-                    let final_open_ports = get_port();
+                    let open_ports = get_port();
                     println!("\n=== PORT SCAN RESULTS ===");
-                    if final_open_ports.is_empty() {
+                    if open_ports.is_empty() {
                         println!("No open ports found in range 1-9999.");
                         println!("Cannot start proxy without a backend service!");
                         return Ok(());
                     } else {
-                        println!("Open ports found: {:?}", final_open_ports);
-                        client(final_open_ports[0] as u16, path).await.unwrap();
+                        println!("Open ports found: {:?}", open_ports);
+                        client(open_ports[0] as u16, path).await.unwrap();
                     };
 
-                    if final_open_ports.len() > 1 {
-                        println!("Total open ports: {}", final_open_ports.len());
+                    if open_ports.len() > 1 {
+                        println!("Total open ports: {}", open_ports.len());
                         println!(
                             "You have to manually specify the port that you want to use by -p <port> flag"
                         );
