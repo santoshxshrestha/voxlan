@@ -36,8 +36,7 @@ pub enum Commands {
 
 #[derive(Args, Debug)]
 pub struct RunArgs {
-    /// Port to bind the proxy server to (where clients connect)
-    /// If not specified, will automatically find an available port.
+    /// Port to bind proxy server to (auto-selected if omitted)
     #[arg(short = 'b', long)]
     pub bind_port: Option<u16>,
 
@@ -52,8 +51,7 @@ pub struct ClientArgs {
     #[arg(long, short = 'p', default_value = "/")]
     pub path: String,
 
-    /// Port to bind the proxy server to (where clients connect)
-    /// If not specified, will automatically find an available port.
+    /// Port to bind proxy server to (auto-selected if omitted)
     #[arg(short = 'b', long)]
     pub bind_port: Option<u16>,
 }
