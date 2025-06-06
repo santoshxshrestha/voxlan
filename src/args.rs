@@ -36,9 +36,13 @@ pub enum Commands {
 
 #[derive(Args, Debug)]
 pub struct RunArgs {
-    /// Specify the target port to forward traffic to, port to bind the proxy server
-    #[arg(short, long)]
+    /// Port to bind the proxy server to (where clients connect)
+    #[arg(short = 'b', long)]
     pub bind_port: Option<u16>,
+
+    /// Target port to forward requests to (the actual service)
+    #[arg(short = 't', long)]
+    pub target_port: Option<u16>,
 }
 
 #[derive(Args, Debug)]
