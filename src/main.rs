@@ -52,7 +52,7 @@ async fn main() -> std::io::Result<()> {
                         return Ok(());
                     }
                 }
-                (None, target) => {
+                (None, bind) => {
                     let final_open_ports = get_port();
                     println!("\n=== PORT SCAN RESULTS ===");
                     if final_open_ports.is_empty() {
@@ -72,8 +72,8 @@ async fn main() -> std::io::Result<()> {
 
                     // Use the first open port as the backend
                     target_port_atomic.store(final_open_ports[0] as u16, atomic::Ordering::Relaxed);
-                    *link.lock().unwrap() = format!("http://{}:{}", local_ip, target);
-                    bind_port_atomic.store(target, atomic::Ordering::Relaxed);
+                    *link.lock().unwrap() = format!("http://{}:{}", local_ip, bind);
+                    bind_port_atomic.store(bind, atomic::Ordering::Relaxed);
                 }
             }
         }
@@ -89,7 +89,7 @@ async fn main() -> std::io::Result<()> {
             }
         }
         args::Commands::Client(client_args) => {
-            let port_number = client_args.bind_port;
+            let port_number = client_args.target;
             let path = client_args.path;
             match (port_number, path) {
                 (Some(number), path) => {

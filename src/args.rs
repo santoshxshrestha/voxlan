@@ -51,9 +51,9 @@ pub struct ClientArgs {
     #[arg(long, short = 'p', default_value = "/")]
     pub path: String,
 
-    /// Port to bind proxy server to (auto-selected if omitted)
-    #[arg(short = 'b', long, default_value = "8081")]
-    pub bind_port: u16,
+    /// Port to bind client to
+    #[arg(short = 'b')]
+    pub bind_port: Option<u16>,
 }
 
 fn get_styles() -> clap::builder::Styles {
