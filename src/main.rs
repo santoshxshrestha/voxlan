@@ -118,7 +118,7 @@ async fn main() -> std::io::Result<()> {
                     if open_ports.len() > 1 {
                         println!("Total open ports: {}", open_ports.len());
                         println!(
-                            "You have to manually specify the port that you want to use by -p <port> flag"
+                            "You have to manually specify the port that you want to use by -b <bind_port> flag"
                         );
                     }
 
