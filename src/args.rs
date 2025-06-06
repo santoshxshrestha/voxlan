@@ -40,7 +40,7 @@ pub struct RunArgs {
     #[arg(short = 'b', long)]
     pub bind_port: Option<u16>,
 
-    /// Target port to forward requests to (the actual service)
+    /// Port to forward requests to
     #[arg(short = 't', long, default_value = "8081")]
     pub target_port: u16,
 }
