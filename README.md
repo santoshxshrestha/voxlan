@@ -149,12 +149,14 @@ cargo uninstall voxlan
 
 ### Basic Usage
 
+> [!NOTE]
+> By default the voxlan is bound to 8081 and target would be the open port if it
+
 ```bash
 # Start VoxLAN with default settings
 voxlan run
 
 # Start VoxLAN by specifying the bind-port and target-port
-# (By default the voxlan is bound to 8081 and target would be the open port if it
 # is only one)
 voxlan run -b 8081 -t 8080
 
@@ -167,14 +169,21 @@ voxlan list
 # Get help for specific command
 voxlan <command> -h
 
-# Run the client
-voxlan client -b <bind-port> --path <path>
-voxlan client -b <bind-port> -p <path>
-bind-port(optional),
-default path is /
+```
+
 > [!NOTE]
 > path should be specified without '/'
-eg voxlan client -b 8080 -p echo
+> bind-port(optional),
+> default path is /
+
+```bash
+# Run the client
+voxlan client -b <bind-port> --path <path>
+
+voxlan client -b <bind-port> -p <path>
+
+# Run clint to http://localhost:8080
+voxlan client -b 8080 -p echo
 
 # Help for the client
 voxlan client --help
@@ -191,11 +200,11 @@ voxlan client --help
 ## 🏗️ Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Client        │────│   VoxLAN        │────│   Target        │
-│   Request       │    │   Proxy         │    │   Service       │
-│                 │    │   :8081         │    │   :Active port  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌────────────────┐    ┌────────────────────┐    ┌──────────────────────────┐
+│    Client      │────│      VoxLAN        │────│         Target           │
+│    Request     │    │      Proxy         │    │         Service          │
+│                │    │ :8081(By default)  │    │ :acitve port(By default) │
+└────────────────┘    └────────────────────┘    └──────────────────────────┘
 ```
 
 ### Core Components
