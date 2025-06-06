@@ -23,7 +23,7 @@ pub async fn client(bind_port: u16, path: String) -> Result<(), Box<dyn std::err
         let message = input.trim();
 
         if message == "quit" || message == "q" || message == "exit" {
-            println!("👋 Goodbye!");
+            println!("󱠡 Goodbye!");
             break;
         }
 
