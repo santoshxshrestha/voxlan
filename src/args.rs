@@ -25,21 +25,24 @@ pub struct VoxlanArgs {
 #[derive(Subcommand, Debug)]
 pub enum Commands {
     ///Run a proxy server
-    Run(CommonArgs),
+    Run(RunArgs),
 
     ///List all the open ports
     List,
 
     ///Connect to the running server and send messages interactively via HTTP POST requests
-    Client(CommonArgs),
+    Client(ClientArgs),
 }
 
 #[derive(Args, Debug)]
-pub struct CommonArgs {
+pub struct RunArgs {
     /// Specify the target port to forward traffic to.
     #[arg(short, long)]
     pub port: Option<u16>,
+}
 
+#[derive(Args, Debug)]
+pub struct ClientArgs {
     /// HTTP endpoint path (client mode only)
     #[arg(long, default_value = "/")]
     pub path: String,
