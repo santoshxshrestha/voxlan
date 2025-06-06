@@ -154,7 +154,7 @@ cargo uninstall voxlan
 voxlan run
 
 # Start VoxLAN by targeting specific port
-voxlan run -b <port>
+voxlan run -b <bind-port>
 
 # List of all the open ports
 voxlan list
