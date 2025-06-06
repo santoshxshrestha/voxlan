@@ -149,9 +149,16 @@ cargo uninstall voxlan
 
 ### Basic Usage
 
+> [!NOTE]
+> By default the voxlan is bound to 8081 and target would be the open port if it
+
 ```bash
 # Start VoxLAN with default settings
 voxlan run
+
+# Start VoxLAN by specifying the bind-port and target-port
+# is only one)
+voxlan run -b 8081 -t 8080
 
 # Start VoxLAN by targeting specific port
 voxlan run -b <bind-port>
@@ -162,23 +169,30 @@ voxlan list
 # Get help for specific command
 voxlan <command> -h
 
+```
+
+> [!NOTE]
+> path should be specified without '/'
+> bind-port(optional),
+> default path is /
+
+```bash
 # Run the client
 voxlan client -b <bind-port> --path <path>
+
 voxlan client -b <bind-port> -p <path>
-bind-port(optional),
-default path is /
+
+# Run clint to http://localhost:8080
+voxlan client -b 8080 -p echo
 
 # Help for the client
 voxlan client --help
 
-# The proxy will start on port 8081 by default
-# Access via: http://your-local-ip:8081
-# Info will be in the terminal
 ```
 
 ### Current Workflow
 
-1. **Network Scan**: VoxLAN scans ports 1-5000 on localhost
+1. **Network Scan**: VoxLAN scans ports 1-10000 on localhost
 2. **Discovery**: Reports all open ports found
 3. **Proxy Start**: Launches HTTP proxy server on port 8081
 4. **Request Forwarding**: Forwards requests to localhost:8080
@@ -186,11 +200,11 @@ voxlan client --help
 ## 🏗️ Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Client        │────│   VoxLAN        │────│   Target        │
-│   Request       │    │   Proxy         │    │   Service       │
-│                 │    │   :8081         │    │   :Active port  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌────────────────┐    ┌────────────────────┐    ┌──────────────────────────┐
+│    Client      │────│      VoxLAN        │────│         Target           │
+│    Request     │    │      Proxy         │    │         Service          │
+│                │    │ :8081(By default)  │    │ :acitve port(By default) │
+└────────────────┘    └────────────────────┘    └──────────────────────────┘
 ```
 
 ### Core Components
@@ -216,6 +230,7 @@ voxlan client --help
 - [x] Basic proxy functionality
 - [x] Network discovery
 - [x] HTTP request forwarding
+- [x] Add option to specify port
 
 ### Phase 2: CLI Integration 🚧
 
