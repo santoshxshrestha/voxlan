@@ -1,11 +1,14 @@
 use reqwest;
 use std::io::{self, Write};
 
-pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
-    println!("  Starting Client on port: {} and path is {}", port, path);
+pub async fn client(bind_port: u16, path: String) -> Result<(), Box<dyn std::error::Error>> {
+    println!(
+        "  Starting Client on port: {} and path is {}",
+        bind_port, path
+    );
     println!(
         "Make sure your server is running on http://localhost:{}",
-        port
+        bind_port
     );
     println!("Type messages to send (or 'quit' to exit):\n");
 
@@ -28,7 +31,7 @@ pub async fn client(port: u16, path: String) -> Result<(), Box<dyn std::error::E
             continue;
         }
 
-        match send_to_server(&client, message, port, path.clone()).await {
+        match send_to_server(&client, message, bind_port, path.clone()).await {
             Ok(response) => println!("✓ Server replied: {}", response),
             Err(e) => println!("󰞇 Error: {}", e),
         }
