@@ -1,4 +1,6 @@
 mod args;
+use host::host;
+mod host;
 use std::sync::atomic::{self, AtomicU16};
 mod client;
 use clap::Parser;
@@ -125,6 +127,11 @@ async fn main() -> std::io::Result<()> {
                     return Ok(());
                 }
             }
+        }
+        args::Commands::Host(host_args) => {
+            let bind_port = host_args.bind_port;
+            host(bind_port).await?;
+            return Ok(());
         }
     }
 
