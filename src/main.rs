@@ -1,4 +1,6 @@
 mod args;
+use host::host;
+mod host;
 use std::sync::atomic::{self, AtomicU16};
 mod client;
 use clap::Parser;
