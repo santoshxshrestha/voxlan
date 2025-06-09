@@ -17,10 +17,6 @@ use client::client;
 use net::{get_local_ip, get_port, scan_port};
 use std::sync::{Arc, Mutex};
 
-async fn host(bind_port: u16) {
-    println!("here goes the code of the host {bind_port}");
-}
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let art = r#"
@@ -134,7 +130,7 @@ async fn main() -> std::io::Result<()> {
         }
         args::Commands::Host(host_args) => {
             let bind_port = host_args.bind_port;
-            host(bind_port).await;
+            host(bind_port).await?;
             return Ok(());
         }
     }
