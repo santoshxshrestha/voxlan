@@ -3,6 +3,8 @@ use std::io;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 
+use crate::animation::show_pulsing;
+
 pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Error>> {
     loop {
         let mut buffer = vec![0; 1024];
@@ -42,6 +44,11 @@ pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Erro
 
 pub async fn host(bind_port: u16) -> io::Result<()> {
     let listener = TcpListener::bind(format!("127.0.0.1:{}", bind_port)).await?;
+    show_pulsing();
+    println!(
+        "connect to this server by following command \n voxlan connect -i 127.0.0.1 -t {}",
+        bind_port
+    );
     loop {
         //here the stream and the add are the socket and the ip of the connnected thinge
         let (stream, addr) = listener.accept().await?;
