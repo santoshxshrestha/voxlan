@@ -46,6 +46,7 @@ pub async fn read_line(mut stream: TcpStream) -> Result<String, Box<dyn Error>> 
 pub async fn host(bind_port: u16) -> io::Result<()> {
     let listener = TcpListener::bind(format!("127.0.0.1:{}", bind_port)).await?;
     loop {
+        //here the stream and the add are the socket and the ip of the connnected thinge
         let (stream, addr) = listener.accept().await?;
         println!("New connection {}", addr);
 
