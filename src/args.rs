@@ -32,6 +32,12 @@ pub enum Commands {
 
     ///Connect to the running server and send messages interactively via HTTP POST requests
     Client(ClientArgs),
+
+    /// TCP host
+    Host(HostArgs),
+
+    /// TCP connect
+    Connect(ConnectArgs),
 }
 
 #[derive(Args, Debug)]
@@ -54,6 +60,23 @@ pub struct ClientArgs {
     /// Port to bind client to (auto-selected if omitted)
     #[arg(short = 'b')]
     pub bind_port: Option<u16>,
+}
+
+#[derive(Args, Debug)]
+pub struct HostArgs {
+    /// Port to bind host server to
+    #[arg(short = 'b', long, default_value = "8081")]
+    pub bind_port: u16,
+}
+
+#[derive(Args, Debug)]
+pub struct ConnectArgs {
+    /// Private Ip of the host machine
+    #[arg(short = 'i', long)]
+    pub ip: String,
+    /// Port to connect with the host
+    #[arg(short = 't', long, default_value = "8081")]
+    pub target_port: u16,
 }
 
 fn get_styles() -> clap::builder::Styles {
