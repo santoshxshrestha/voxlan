@@ -1,4 +1,3 @@
-#![allow(unused)]
 use std::error::Error;
 use std::io;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
