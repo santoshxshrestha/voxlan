@@ -132,7 +132,7 @@ async fn main() -> std::io::Result<()> {
         }
         args::Commands::Host(host_args) => {
             let bind_port = host_args.bind_port;
-            host(bind_port).await?;
+            host(bind_port, local_ip).await?;
             return Ok(());
         }
         args::Commands::Connect(connect_args) => {

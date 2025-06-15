@@ -42,12 +42,12 @@ pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Erro
 //     Ok(message.trim().to_string())
 // }
 
-pub async fn host(bind_port: u16) -> io::Result<()> {
+pub async fn host(bind_port: u16, local_ip: String) -> io::Result<()> {
     let listener = TcpListener::bind(format!("127.0.0.1:{}", bind_port)).await?;
     show_pulsing();
     println!(
-        "connect to this server by following command \n voxlan connect -i 127.0.0.1 -t {}",
-        bind_port
+        "connect to this server by following command \n voxlan connect -i {} -t {}",
+        local_ip, bind_port
     );
     loop {
         //here the stream and the add are the socket and the ip of the connnected thinge
