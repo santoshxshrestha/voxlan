@@ -138,7 +138,7 @@ async fn main() -> std::io::Result<()> {
         args::Commands::Connect(connect_args) => {
             let target_port = connect_args.target_port;
             let ip = connect_args.ip;
-            connect(target_port, ip);
+            connect(target_port, ip).await?;
             return Ok(());
         }
     }
