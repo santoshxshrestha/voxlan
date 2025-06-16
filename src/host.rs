@@ -1,14 +1,40 @@
 use std::error::Error;
 use std::io;
+use std::io::Write;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::{TcpListener, TcpStream};
+use tokio::net::TcpListener;
+use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
 
 use crate::animation::show_pulsing;
+pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> Result<(), Box<dyn Error>> {
+    loop {
+        print!("Message 󰁕 ");
+        io::stdout().flush()?;
 
-pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Error>> {
+        let mut input = String::new();
+        io::stdin().read_line(&mut input)?;
+        let message = input.trim();
+
+        if message == "quit" || message == "q" || message == "exit" {
+            println!("󱠡 Goodbye!");
+            break;
+        }
+
+        if message.is_empty() {
+            continue;
+        }
+
+        owned_write_half
+            .write_all((format!("{}", message)).as_bytes())
+            .await?;
+    }
+    Ok(())
+}
+
+pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> Result<(), Box<dyn Error>> {
     loop {
         let mut buffer = vec![0; 1024];
-        match stream.read(&mut buffer).await {
+        match owned_read_half.read(&mut buffer).await {
             Ok(0) => {
                 println!("Client Disconnected gracefully");
                 break; // Connection closed
@@ -26,12 +52,7 @@ pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Erro
 
         let message = String::from_utf8_lossy(&buffer[..]);
         println!("Received message: {}", message.trim());
-
-        stream
-            .write_all(format!("Echo: {}", message).as_bytes())
-            .await?;
     }
-
     Ok(())
 }
 
@@ -63,10 +84,17 @@ pub async fn host(bind_port: u16, local_ip: String) -> io::Result<()> {
         //here the stream and the add are the socket and the ip of the connnected thinge
         let (stream, addr) = listener.accept().await?;
         println!("New connection {}", addr);
+        let (owned_read_half, owned_write_half) = stream.into_split();
 
         tokio::spawn(async move {
-            if let Err(e) = handle_connection(stream).await {
-                eprintln!("Error handling connection: {}", e);
+            if let Err(e) = handle_write(owned_write_half).await {
+                eprintln!("Error handling the writer: {}", e);
+            }
+        });
+
+        tokio::spawn(async move {
+            if let Err(e) = handle_read(owned_read_half).await {
+                eprintln!("Error handling reader: {}", e);
             }
         });
     }
