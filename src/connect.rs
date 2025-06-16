@@ -7,7 +7,7 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
 
-pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> Result<(), Box<dyn Error>> {
+pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> io::Result<()> {
     loop {
         print!("Message 󰁕 ");
         io::stdout().flush()?;
@@ -32,7 +32,7 @@ pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> Result<(), Bo
     Ok(())
 }
 
-pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> Result<(), Box<dyn Error>> {
+pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
     loop {
         let mut buffer = vec![0; 1024];
         match owned_read_half.read(&mut buffer).await {
@@ -47,7 +47,7 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> Result<(), Box<d
             }
             Err(e) => {
                 println!("Failed reading stream:{}", e);
-                return Err(Box::new(e));
+                // return Err(Box::new(e));
             }
         }
 
@@ -63,14 +63,12 @@ pub async fn connect(target_port: u16, ip: String) -> Result<(), std::io::Error>
         let (owned_read_half, owned_write_half) = stream.into_split();
 
         tokio::spawn(async move {
-            if let Err(e) = handle_write(owned_write_half).await {
-                eprintln!("Error handling the writer: {}", e);
+            let (r, w) = tokio::join!(handle_read(owned_read_half), handle_write(owned_write_half));
+            if let Err(e) = r {
+                eprintln!("Read error: {}", e);
             }
-        });
-
-        tokio::spawn(async move {
-            if let Err(e) = handle_read(owned_read_half).await {
-                eprintln!("Error handling reader: {}", e);
+            if let Err(e) = w {
+                eprintln!("Write error: {}", e);
             }
         });
     }
