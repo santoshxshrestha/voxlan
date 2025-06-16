@@ -9,7 +9,7 @@ use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
 pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> io::Result<()> {
     loop {
         let input = tokio::task::spawn_blocking(|| {
-            print!("Message 󰁕 ");
+            print!(" 󰁕 ");
             io::stdout().flush().unwrap();
             let mut input = String::new();
             io::stdin().read_line(&mut input).unwrap();
@@ -49,7 +49,9 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
             }
         }
         let message = String::from_utf8_lossy(&buffer[..]);
-        println!("Received message: {}", message.trim());
+        println!("\n← {} ", message.trim());
+        print!(" 󰁕 ");
+        io::stdout().flush().unwrap();
     }
     Ok(())
 }
