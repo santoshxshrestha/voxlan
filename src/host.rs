@@ -9,9 +9,19 @@ pub async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Erro
     loop {
         let mut buffer = vec![0; 1024];
         match stream.read(&mut buffer).await {
-            Ok(0) => break, // Connection closed
+            Ok(0) => {
+                println!("Client Disconnected gracefully");
+                break; // Connection closed
+            }
             Ok(n) => buffer.truncate(n),
-            Err(e) => println!("Failed reading stream:{}", e),
+            Err(e) if e.kind() == io::ErrorKind::ConnectionReset => {
+                println!("Client disconnected abruptly (reset)");
+                break; // loop gets exited
+            }
+            Err(e) => {
+                println!("Failed reading stream:{}", e);
+                return Err(Box::new(e));
+            }
         }
 
         let message = String::from_utf8_lossy(&buffer[..]);
