@@ -57,23 +57,6 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> Result<(), Box<d
     Ok(())
 }
 
-// pub async fn read_line(mut stream: TcpStream) -> Result<String, Box<dyn Error>> {
-//     let mut buffer = vec![0u8; 1024];
-//     let mut byte = [0, 1];
-//
-//     loop {
-//         stream.read_exact(&mut byte).await?;
-//         buffer.push(byte[0]);
-//
-//         if byte[0] == b'\n' {
-//             break;
-//         }
-//     }
-//
-//     let message = String::from_utf8(buffer)?;
-//     Ok(message.trim().to_string())
-// }
-
 pub async fn host(bind_port: u16, local_ip: String) -> io::Result<()> {
     let listener = TcpListener::bind(format!("0.0.0.0:{}", bind_port)).await?;
     show_pulsing();
