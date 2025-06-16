@@ -176,6 +176,8 @@ voxlan <command> -h
 > bind-port(optional),
 > default path is /
 
+# Running client "HTTP"
+
 ```bash
 # Run the client
 voxlan client -b <bind-port> --path <path>
@@ -187,6 +189,21 @@ voxlan client -b 8080 -p echo
 
 # Help for the client
 voxlan client --help
+
+```
+
+# Hosting and connecting tcp connection
+
+> [!NOTE]
+> This is not available for multiple connection but a pair will work fine
+
+```bash
+# To host a tcp connection
+voxlan host -b <bind-port>
+
+
+# To connect to a tcp connection
+voxlan connect  -i <private-ip-of-host-machine> -t <target-port>
 
 ```
 
