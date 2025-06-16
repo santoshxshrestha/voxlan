@@ -68,13 +68,13 @@ pub async fn host(bind_port: u16, local_ip: String) -> io::Result<()> {
         //here the stream and the add are the socket and the ip of the connnected thinge
         let (stream, addr) = listener.accept().await?;
         println!("New connection {}", addr);
-        let (owned_read_half, _owned_write_half) = stream.into_split();
+        let (owned_read_half, owned_write_half) = stream.into_split();
 
-        // tokio::spawn(async move {
-        //     if let Err(e) = handle_write(owned_write_half).await {
-        //         eprintln!("Error handling the writer: {}", e);
-        //     }
-        // });
+        tokio::spawn(async move {
+            if let Err(e) = handle_write(owned_write_half).await {
+                eprintln!("Error handling the writer: {}", e);
+            }
+        });
 
         tokio::spawn(async move {
             if let Err(e) = handle_read(owned_read_half).await {
@@ -82,4 +82,5 @@ pub async fn host(bind_port: u16, local_ip: String) -> io::Result<()> {
             }
         });
     }
+    Ok(())
 }
