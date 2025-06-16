@@ -9,7 +9,7 @@ It provides real-time feedback via terminal animations and supports forwarding H
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 > [!WARNING]
-> The host and the connect features are still in beta version 
+> The host and the connect features are still in begin developing stage
 
 ## 🚀 What is VoxLAN?
 
