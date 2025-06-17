@@ -132,7 +132,9 @@ async fn main() -> std::io::Result<()> {
         }
         args::Commands::Host(host_args) => {
             let bind_port = host_args.bind_port;
-            host(bind_port, local_ip).await?;
+            let allow_ips = host_args.allow_ip;
+            let block_ips = host_args.block_ip;
+            host(bind_port, local_ip, allow_ips, block_ips).await?;
             return Ok(());
         }
         args::Commands::Connect(connect_args) => {

@@ -67,6 +67,16 @@ pub struct HostArgs {
     /// Port to bind host server to
     #[arg(short = 'b', long, default_value = "8081")]
     pub bind_port: u16,
+
+    /// Allow specific IP addresses (comma-separated)
+    /// Usage: --allow-ip=IP1,IP2,IP3
+    #[arg(long = "allow-ip", value_delimiter(','))]
+    pub allow_ip: Vec<String>,
+
+    /// Block specific IP addresses (comma-separated)
+    /// Usage: --block-ip=IP1,IP2,IP3
+    #[arg(long = "block-ip", value_delimiter(','))]
+    pub block_ip: Vec<String>,
 }
 
 #[derive(Args, Debug)]
