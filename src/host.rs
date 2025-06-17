@@ -77,7 +77,12 @@ pub async fn host(bind_port: u16, local_ip: String, allow_ips: Vec<String>) -> i
         let client_ip = addr.ip().to_string();
 
         if allow_ips.is_empty() || allow_ips.iter().any(|allowed_ip| allowed_ip == &client_ip) {
-            println!("Allowed IP {} to connect", client_ip);
+            println!(
+                "Allowed connection from {}:{} (IP: {})",
+                addr,
+                addr.port(),
+                client_ip
+            );
             let (owned_read_half, owned_write_half) = stream.into_split();
 
             tokio::spawn(async move {
@@ -92,9 +97,12 @@ pub async fn host(bind_port: u16, local_ip: String, allow_ips: Vec<String>) -> i
             });
         } else {
             println!(
-                "Blocked connection from IP: {} (not in allowed list)",
+                "Blocked connection from {}:{} (IP: {} not in allowed list)",
+                addr,
+                addr.port(),
                 client_ip
             );
+            continue;
         }
     }
 }
