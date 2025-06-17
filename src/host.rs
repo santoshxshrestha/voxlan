@@ -3,6 +3,7 @@ use crate::show_pulsing;
 use std::error::Error;
 use std::io;
 use std::io::Write;
+use std::net::IpAddr;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
 use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
@@ -65,8 +66,8 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
 pub async fn host(
     bind_port: u16,
     local_ip: String,
-    allow_ips: Vec<String>,
-    block_ips: Vec<String>,
+    allow_ips: Vec<IpAddr>,
+    block_ips: Vec<IpAddr>,
 ) -> io::Result<()> {
     let listener = TcpListener::bind(format!("0.0.0.0:{}", bind_port)).await?;
     show_pulsing();
@@ -79,7 +80,7 @@ pub async fn host(
     loop {
         let (stream, addr) = listener.accept().await?;
 
-        let client_ip = addr.ip().to_string();
+        let client_ip = addr.ip();
 
         if (allow_ips.is_empty() || allow_ips.iter().any(|allowed_ip| allowed_ip == &client_ip))
             && !block_ips.iter().any(|blocked_ip| blocked_ip == &client_ip)

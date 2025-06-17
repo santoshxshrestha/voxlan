@@ -1,3 +1,5 @@
+use std::net::IpAddr;
+
 use clap::{Args, ColorChoice, Parser, Subcommand};
 
 #[derive(Parser, Debug)]
@@ -71,19 +73,19 @@ pub struct HostArgs {
     /// Allow specific IP addresses (comma-separated)
     /// Usage: --allow-ip=IP1,IP2,IP3
     #[arg(long = "allow-ip", value_delimiter(','))]
-    pub allow_ip: Vec<String>,
+    pub allow_ip: Vec<IpAddr>,
 
     /// Block specific IP addresses (comma-separated)
     /// Usage: --block-ip=IP1,IP2,IP3
     #[arg(long = "block-ip", value_delimiter(','))]
-    pub block_ip: Vec<String>,
+    pub block_ip: Vec<IpAddr>,
 }
 
 #[derive(Args, Debug)]
 pub struct ConnectArgs {
     /// Private Ip of the host machine
     #[arg(short = 'i', long)]
-    pub ip: String,
+    pub ip: IpAddr,
     /// Port to connect with the host
     #[arg(short = 't', long, default_value = "8081")]
     pub target_port: u16,

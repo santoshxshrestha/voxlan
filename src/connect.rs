@@ -2,6 +2,7 @@
 use std::error::Error;
 use std::io;
 use std::io::Write;
+use std::net::IpAddr;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
@@ -56,7 +57,7 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
     Ok(())
 }
 
-pub async fn connect(target_port: u16, ip: String) -> Result<(), std::io::Error> {
+pub async fn connect(target_port: u16, ip: IpAddr) -> Result<(), std::io::Error> {
     let stream = TcpStream::connect(format!("{}:{}", ip, target_port)).await?;
     println!("Connected to server {}:{}", ip, target_port);
 
