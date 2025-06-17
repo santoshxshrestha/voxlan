@@ -17,18 +17,24 @@ VoxLAN is a sophisticated LAN proxy server built in Rust that discovers and mana
 ### Current Features
 
 - 🔍 **Network Discovery**: Automatically scans and identifies open ports on local network
+- 🎛️ **Comprehensive CLI**: A full-featured command-line interface built with clap for intuitive control.
 - 󰐲 QR Access: Generates QR codes for quick and easy access
 - 📊 **Real-time Monitoring**: Live port scanning and network status reporting
 - 🔄 **Request Forwarding**: Seamless proxy functionality for local services
 - 🚀 **High Performance**: Built with Actix-web for optimal performance
+- 🤝 **TCP Tunneling**: Host and connect to TCP connections between machines.
+- 🛡️ **Access Control**: Filter TCP connections with IP-based allow and block lists.
 
 ### 🎯 Planned Features
 
 - 📋 **Filter Lists**: Advanced filtering capabilities for network traffic
-- 🎛️ **CLI Interface**: Comprehensive command-line interface with clap integration
 - 🔢 **Device Selection**: Target specific devices by number or identifier
 - 📡 **Custom Request Handling**: Flexible request processing and routing
+- 📄 **Configuration Files**: Support for loading settings from a configuration file.
 - 🔐 **Security Features**: Traffic filtering and access control
+---
+
+# 🛠️ Installation
 
 You have three options: via Cargo, via prebuilt script, or manual install.
 
@@ -150,67 +156,64 @@ cargo uninstall voxlan
 ### Basic Usage
 
 > [!NOTE]
-> By default the voxlan is bound to 8081 and target would be the open port if it
+> By default the `voxlan` is bound to `8081` and target would be the open port if it
 
 ```bash
 # Start VoxLAN with default settings
 voxlan run
 
-# Start VoxLAN by specifying the bind-port and target-port
-# is only one)
+# Start VoxLAN by specifying the bind and target ports
 voxlan run -b 8081 -t 8080
 
 # Start VoxLAN by targeting specific port
 voxlan run -b <bind-port>
 
-# List of all the open ports
+# List of all open ports 
 voxlan list
 
-# Get help for specific command
+# Get help for a specific command
 voxlan <command> -h
 
 ```
 
 > [!NOTE]
-> path should be specified without '/'
+> The path should be specified without a leading `/`.
 > bind-port(optional),
 > default path is /
 
 # Running client "HTTP"
 
 ```bash
-# Run the client
+# Run the client and send a request
 voxlan client -b <bind-port> --path <path>
 
-voxlan client -b <bind-port> -p <path>
-
-# Run clint to http://localhost:8080
+# Example: Run client to send a request to http://localhost:8080/echo
 voxlan client -b 8080 -p echo
 
-# Help for the client
+# Get help for the client command
 voxlan client --help
 
 ```
 
-# Hosting and connecting tcp connection
+# Hosting and connecting a TCP Tunnel
 
 > [!NOTE]
-> This is not available for multiple connection but a pair will work fine
+> This feautre is intended for a pair of connections.
 > If a crertain IP is in both the allow-list and block-list it will be blocked
 > If no args are passed in the allow and block lists then all the IP will be allowed
 
 ```bash
-# To host a tcp connection
+# To host a TCP connection
 voxlan host -b <bind-port>
 
 
-# To connect to a tcp connection
+# To connect to a TCP host
 voxlan connect  -i <private-ip-of-host-machine> -t <target-port>
 
-# To apply allow-list while hosting
+# To apply an allow-list while hosting
 voxlan host -b <bind-port> --allow-ip=IP1,IP2,IP3,...
 
-# To apply block-list while hosting
+# To apply a block-list while hosting
 voxlan host -b <bind-port> --block-ip=IP1,IP2,IP3,...
 
 ```
@@ -262,14 +265,15 @@ voxlan host -b <bind-port> --block-ip=IP1,IP2,IP3,...
 - [x] Implement clap for argument parsing
 - [x] Custom request configuration
 - [x] Filter list implementation
+- [x] Added QR code generation for easy access
 
 ### Phase 3: Advanced Features 📋
 
 - [x] Rich terminal UI (voxlan-style)
 - [ ] Real-time network monitoring
-- [ ] Traffic filtering and rules
-- [ ] Configuration file support
-- [ ] Plugin system architecture
+- [ ] Advance traffic filtering and rules
+- [ ] Configuration file support (.toml or .yaml)
+
 
 ## 🤝 Contributing
 
