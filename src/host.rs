@@ -8,6 +8,13 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
 use tokio::net::tcp::{OwnedReadHalf, OwnedWriteHalf};
 
+pub struct HostConfig {
+    pub bind_port: u16,
+    pub local_ip: String,
+    pub allow_ips: Vec<IpAddr>,
+    pub block_ips: Vec<IpAddr>,
+}
+
 pub async fn handle_write(mut owned_write_half: OwnedWriteHalf) -> io::Result<()> {
     loop {
         // These will work fine but   io::stdin().read_line(&mut input)?;  will block the fn so,
@@ -63,18 +70,13 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
     Ok(())
 }
 
-pub async fn host(
-    bind_port: u16,
-    local_ip: String,
-    allow_ips: Vec<IpAddr>,
-    block_ips: Vec<IpAddr>,
-) -> io::Result<()> {
-    let listener = TcpListener::bind(format!("0.0.0.0:{}", bind_port)).await?;
+pub async fn host(config: HostConfig) -> io::Result<()> {
+    let listener = TcpListener::bind(format!("0.0.0.0:{}", config.bind_port)).await?;
     show_pulsing();
     // println!("Server listening on port {}", bind_port);
     println!(
         "connect to this server by following command \n voxlan connect -i {} -t {}",
-        local_ip, bind_port
+        config.local_ip, config.bind_port
     );
 
     loop {
@@ -82,8 +84,15 @@ pub async fn host(
 
         let client_ip = addr.ip();
 
-        if (allow_ips.is_empty() || allow_ips.iter().any(|allowed_ip| allowed_ip == &client_ip))
-            && !block_ips.iter().any(|blocked_ip| blocked_ip == &client_ip)
+        if (config.allow_ips.is_empty()
+            || config
+                .allow_ips
+                .iter()
+                .any(|allowed_ip| allowed_ip == &client_ip))
+            && !config
+                .block_ips
+                .iter()
+                .any(|blocked_ip| blocked_ip == &client_ip)
         {
             println!("Allowed connection from {} (IP: {})", addr, client_ip);
             let (owned_read_half, owned_write_half) = stream.into_split();
