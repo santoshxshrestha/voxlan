@@ -67,6 +67,10 @@ pub struct HostArgs {
     /// Port to bind host server to
     #[arg(short = 'b', long, default_value = "8081")]
     pub bind_port: u16,
+
+    /// Allow specific IP addresses (can be used multiple times)
+    #[arg(short = 'a', long = "allow-ip")]
+    pub allow_ip: Vec<String>,
 }
 
 #[derive(Args, Debug)]
