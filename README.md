@@ -196,6 +196,8 @@ voxlan client --help
 
 > [!NOTE]
 > This is not available for multiple connection but a pair will work fine
+> If a crertain IP is in both the allow-list and block-list it will be blocked
+> If no args are passed in the allow and block lists then all the IP will be allowed
 
 ```bash
 # To host a tcp connection
@@ -204,6 +206,12 @@ voxlan host -b <bind-port>
 
 # To connect to a tcp connection
 voxlan connect  -i <private-ip-of-host-machine> -t <target-port>
+
+# To apply allow-list while hosting
+voxlan host -b <bind-port> --allow-ip=IP1,IP2,IP3
+
+# To apply block-list while hosting
+voxlan host -b <bind-port> --block-ip=IP1,IP2,IP3
 
 ```
 
@@ -252,13 +260,12 @@ voxlan connect  -i <private-ip-of-host-machine> -t <target-port>
 ### Phase 2: CLI Integration 🚧
 
 - [x] Implement clap for argument parsing
-- [ ] Add device selection by number
-- [ ] Custom request configuration
-- [ ] Filter list implementation
+- [x] Custom request configuration
+- [x] Filter list implementation
 
 ### Phase 3: Advanced Features 📋
 
-- [ ] Rich terminal UI (voxlan-style)
+- [x] Rich terminal UI (voxlan-style)
 - [ ] Real-time network monitoring
 - [ ] Traffic filtering and rules
 - [ ] Configuration file support
