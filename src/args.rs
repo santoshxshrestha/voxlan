@@ -69,9 +69,14 @@ pub struct HostArgs {
     pub bind_port: u16,
 
     /// Allow specific IP addresses (comma-separated)
-    /// Usage: -a=IP1,IP2,IP3
-    #[arg(short = 'a', long = "allow-ip", value_delimiter(','))]
+    /// Usage: --allow-ip=IP1,IP2,IP3
+    #[arg(long = "allow-ip", value_delimiter(','))]
     pub allow_ip: Vec<String>,
+
+    /// Block specific IP addresses (comma-separated)
+    /// Usage: --block-ip=IP1,IP2,IP3
+    #[arg(long = "block-ip", value_delimiter(','))]
+    pub block_ip: Vec<String>,
 }
 
 #[derive(Args, Debug)]

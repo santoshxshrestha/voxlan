@@ -62,7 +62,12 @@ pub async fn handle_read(mut owned_read_half: OwnedReadHalf) -> io::Result<()> {
     Ok(())
 }
 
-pub async fn host(bind_port: u16, local_ip: String, allow_ips: Vec<String>) -> io::Result<()> {
+pub async fn host(
+    bind_port: u16,
+    local_ip: String,
+    allow_ips: Vec<String>,
+    block_ips: Vec<String>,
+) -> io::Result<()> {
     let listener = TcpListener::bind(format!("0.0.0.0:{}", bind_port)).await?;
     show_pulsing();
     // println!("Server listening on port {}", bind_port);
@@ -76,7 +81,9 @@ pub async fn host(bind_port: u16, local_ip: String, allow_ips: Vec<String>) -> i
 
         let client_ip = addr.ip().to_string();
 
-        if allow_ips.is_empty() || allow_ips.iter().any(|allowed_ip| allowed_ip == &client_ip) {
+        if (allow_ips.is_empty() || allow_ips.iter().any(|allowed_ip| allowed_ip == &client_ip))
+            && !block_ips.iter().any(|blocked_ip| blocked_ip == &client_ip)
+        {
             println!("Allowed connection from {} (IP: {})", addr, client_ip);
             let (owned_read_half, owned_write_half) = stream.into_split();
 
