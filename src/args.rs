@@ -1,3 +1,4 @@
+use clap::ArgAction::Append;
 use clap::{Args, ColorChoice, Parser, Subcommand};
 
 #[derive(Parser, Debug)]
@@ -69,7 +70,7 @@ pub struct HostArgs {
     pub bind_port: u16,
 
     /// Allow specific IP addresses (can be used multiple times)
-    #[arg(short = 'a', long = "allow-ip")]
+    #[arg(short = 'a', long = "allow-ip", action = Append)]
     pub allow_ip: Vec<String>,
 }
 
