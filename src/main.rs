@@ -1,6 +1,7 @@
 mod args;
 mod connect;
 use connect::connect;
+use host::HostConfig;
 use host::host;
 mod host;
 use std::sync::atomic::{self, AtomicU16};
@@ -131,10 +132,13 @@ async fn main() -> std::io::Result<()> {
             }
         }
         args::Commands::Host(host_args) => {
-            let bind_port = host_args.bind_port;
-            let allow_ips = host_args.allow_ip;
-            let block_ips = host_args.block_ip;
-            host(bind_port, local_ip, allow_ips, block_ips).await?;
+            host(HostConfig {
+                bind_port: host_args.bind_port,
+                local_ip: local_ip,
+                allow_ips: host_args.allow_ip,
+                block_ips: host_args.block_ip,
+            })
+            .await?;
             return Ok(());
         }
         args::Commands::Connect(connect_args) => {
