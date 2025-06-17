@@ -7,14 +7,14 @@ use clap::{Args, ColorChoice, Parser, Subcommand};
     author,
     version,
     about = r#"
- Voice of the LAN 
- - A powerful Tool that scans open TCP ports locally and runs a proxy server forwarding requests to the detected service.
+Voice of the LAN - A versatile LAN proxy for service discovery, request forwarding, and TCP tunneling.
     "#,
     long_about = r#"
- Voice of the LAN - A powerful LAN proxy that speaks your network's language.
- It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
- then starts a proxy server forwarding requests to the first detected open port.
- It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
+Voice of the LAN - A powerful LAN proxy that speaks your network's language.
+It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
+then starts a proxy server forwarding requests to the first detected open port.
+It also provides robust TCP tunneling capabilities, allowing you to host and connect to direct TCP connections with access control.
+It provides real-time feedback via terminal animations and supports forwarding HTTP requests using Actix Web and Reqwest.
 "#
 )]
 #[clap(color = ColorChoice::Always)]
