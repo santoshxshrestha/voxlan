@@ -208,10 +208,10 @@ voxlan host -b <bind-port>
 voxlan connect  -i <private-ip-of-host-machine> -t <target-port>
 
 # To apply allow-list while hosting
-voxlan host -b <bind-port> --allow-ip=IP1,IP2,IP3
+voxlan host -b <bind-port> --allow-ip=IP1,IP2,IP3,...
 
 # To apply block-list while hosting
-voxlan host -b <bind-port> --block-ip=IP1,IP2,IP3
+voxlan host -b <bind-port> --block-ip=IP1,IP2,IP3,...
 
 ```
 
