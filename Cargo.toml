@@ -1,6 +1,6 @@
 [package]
 name = "voxlan"
-version = "2.8.4"
+version = "2.9.4"
 edition = "2024"
 authors = ["Santosh Shrestha <santoshxshrestha@gmail.com> "]
 description = "Tool that scans open TCP ports locally and runs a proxy server forwarding requests to the detected service."
