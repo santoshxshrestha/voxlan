@@ -52,7 +52,7 @@ jobs:
         if: steps.changed.outputs.changed == 'true'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish --locked
+        run: cargo publish
 
       - name: Tag and push version
         if: steps.changed.outputs.changed == 'true'
