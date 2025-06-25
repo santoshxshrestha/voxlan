@@ -47,3 +47,13 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish --locked
+
+      - name: Tag and push version
+        if: steps.changed.outputs.changed == 'true'
+        env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v${{ steps.current.outputs.version }}"
+          git push origin "v${{ steps.current.outputs.version }}"
