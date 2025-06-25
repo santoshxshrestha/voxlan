@@ -4,12 +4,18 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  contents: write
+
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -51,9 +57,46 @@ jobs:
       - name: Tag and push version
         if: steps.changed.outputs.changed == 'true'
         env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "v${{ steps.current.outputs.version }}"
           git push origin "v${{ steps.current.outputs.version }}"
+
+      - name: Build binary
+        run: cargo build --release
+
+      - name: Rename binary (Linux/macOS)
+        if: ${{ runner.os != "Windows" }}
+        run: mv target/release/voxlan target/release/voxlan-${{ runner.os }}
+
+      - name: Rename binary (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: ren target\release\voxlan.exe voxlan-windows.exe
+        shell: cmd
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.current.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset (Linux/macOS)
+        uses: softprops/action-gh-release@v2
+        if: runner.os != 'Windows'
+        with:
+          files: target/release/voxlan-${{ runner.os }}
+          tag_name: v${{ steps.current.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset (Windows)
+        uses: softprops/action-gh-release@v2
+        if: runner.os ==  'Windows'
+        with:
+          files: target/release/voxlan-windows.exe
+          tag_name: v${{ steps.current.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
