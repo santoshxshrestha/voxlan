@@ -80,8 +80,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.current.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Upload Release Asset (Linux/macOS)
         uses: softprops/action-gh-release@v2
@@ -90,13 +89,12 @@ jobs:
           files: target/release/voxlan-${{ runner.os }}
           tag_name: v${{ steps.current.outputs.version }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Upload Release Asset (Windows)
         uses: softprops/action-gh-release@v2
         if: runner.os ==  'Windows'
         with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
           files: target/release/voxlan-windows.exe
           tag_name: v${{ steps.current.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
