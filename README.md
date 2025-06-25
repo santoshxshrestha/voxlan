@@ -166,7 +166,7 @@ voxlan run
 voxlan run -b 8081 -t 8080
 
 # Start VoxLAN by targeting specific port
-voxlan run -b <bind-port>
+voxlan run -t <target-port>
 
 # List of all open ports 
 voxlan list
