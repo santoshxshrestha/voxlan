@@ -1,6 +1,6 @@
 [package]
 name = "voxlan"
-version = "2.9.6"
+version = "2.9.7"
 edition = "2024"
 authors = ["Santosh Shrestha <santoshxshrestha@gmail.com> "]
 description = "A Rust-powered LAN utility for port scanning, HTTP proxying, and TCP tunneling."
