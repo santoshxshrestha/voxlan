@@ -36,8 +36,7 @@ jobs:
       - name: Get previous version from main
         id: previous
         run: |
-          git fetch origin main --depth=1
-          prev_ver=$(git show origin/main:Cargo.toml | grep '^version' | head -1 | sed 's/version = "\(.*\)"/\1/')
+          prev_ver=$(git show HEAD^:Cargo.toml | grep '^version' | head -1 | sed 's/version = "\(.*\)"/\1/')
           echo "version=$prev_ver" >> $GITHUB_OUTPUT
 
       - name: Check for version change
