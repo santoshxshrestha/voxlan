@@ -1,4 +1,4 @@
-# VoxLAN 🎙️
+# VoxLAN 
 
 **Voice of the LAN** - A powerful LAN proxy that speaks your network's language
 It is a Rust-based command-line and proxy server tool that scans local TCP ports to find open services,
@@ -8,22 +8,22 @@ It provides real-time feedback via terminal animations and supports forwarding H
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## 🚀 What is VoxLAN?
+## What is VoxLAN?
 
 VoxLAN is a sophisticated LAN proxy server built in Rust that discovers and manages network connections. It acts as an intelligent intermediary for your local network communications, providing seamless proxy functionality with advanced network discovery capabilities.
 
-## ✨ Features
+## Features
 
 ### Current Features
 
-- 🔍 **Network Discovery**: Automatically scans and identifies open ports on local network
-- 🎛️ **Comprehensive CLI**: A full-featured command-line interface built with clap for intuitive control.
+- **Network Discovery**: Automatically scans and identifies open ports on local network
+- **Comprehensive CLI**: A full-featured command-line interface built with clap for intuitive control.
 - 󰐲 QR Access: Generates QR codes for quick and easy access
-- 📊 **Real-time Monitoring**: Live port scanning and network status reporting
-- 🔄 **Request Forwarding**: Seamless proxy functionality for local services
-- 🚀 **High Performance**: Built with Actix-web for optimal performance
-- 🤝 **TCP Tunneling**: Host and connect to TCP connections between machines.
-- 🛡️ **Access Control**: Filter TCP connections with IP-based allow and block lists.
+- **Real-time Monitoring**: Live port scanning and network status reporting
+- **Request Forwarding**: Seamless proxy functionality for local services
+- **High Performance**: Built with Actix-web for optimal performance
+- **TCP Tunneling**: Host and connect to TCP connections between machines.
+- **Access Control**: Filter TCP connections with IP-based allow and block lists.
 
 ### 🎯 Planned Features
 
